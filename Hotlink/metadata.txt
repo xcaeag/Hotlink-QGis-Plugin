@@ -1,0 +1,30 @@
+# This file contains metadata for your plugin. Beginning
+# with version 1.8 this is the preferred way to supply information about a
+# plugin. The current method of embedding metadata in __init__.py will
+# be supported until version 2.0
+
+# This file should be included when you package your plugin.
+
+[general]
+name=Hotlink
+qgisMinimumVersion=2.2
+description=Triggers actions on single click
+version=0.7
+
+changelog=0.7 : QGis 2.2 compatible 
+    0.6 : bug fix - numeric display fields failed.
+    0.5 : QGis 2.0 compatible 
+    0.4 : 1.9 compatible
+
+tags=hotlink action trigger
+
+homepage=http://hub.qgis.org/projects/hotlink
+tracker=http://hub.qgis.org/projects/hotlink/issues
+repository=http://plugins.qgis.org/plugins/plugins.xml
+icon=hotlink.png
+experimental=False
+
+deprecated=False
+
+author=Xavier Culos (Agence de l'eau Adour Garonne)
+email=xavier.culos@eau-adour-garonne.fr

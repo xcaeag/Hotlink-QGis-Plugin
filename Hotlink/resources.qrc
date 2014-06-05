@@ -1,0 +1,5 @@
+<RCC> 
+  <qresource prefix="/plugins/Hotlink" > 
+    <file>hotlink.png</file> 
+  </qresource> 
+</RCC> 
