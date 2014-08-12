@@ -62,9 +62,12 @@ class HotlinkMT(QgsMapTool):
                     idxAction = 0
                     while idxAction < layer.actions().size():
                         action = layer.actions()[idxAction]
-                        if layer.displayField() and feat.attribute(layer.displayField()):
-                            actionName = action.name() + " (" + feat.attribute(layer.displayField())+")"
-                        else:
+                        try:
+                            if layer.displayField() and feat.attribute(layer.displayField()):
+                                actionName = action.name() + " (" + feat.attribute(layer.displayField())+")"
+                            else:
+                                actionName = action.name()
+                        except:
                             actionName = action.name()
                             
                         self.featuresFound[idx] =  {"actionName":"    "+actionName, "feature":feat, "layer":layer, "idxAction":idxAction}
@@ -75,10 +78,13 @@ class HotlinkMT(QgsMapTool):
                     # tool tip
                     if tooltip != "":
                         tooltip += "\n"
-                    
-                    if layer.displayField() and feat.attribute(layer.displayField()):
-                        tooltip += layer.name() + " - " + feat.attribute(layer.displayField())
-                    else:
+
+                    try:
+                        if layer.displayField() and feat.attribute(layer.displayField()):
+                            tooltip += layer.name() + " - " + feat.attribute(layer.displayField())
+                        else:
+                            tooltip += layer.name() 
+                    except:
                         tooltip += layer.name() 
     
                 # display
