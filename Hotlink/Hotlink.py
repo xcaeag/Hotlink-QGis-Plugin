@@ -65,17 +65,28 @@ class Hotlink:
                 QCoreApplication.installTranslator(self.translator)
 
     def initGui(self):  
-        self.toolBar = self.iface.pluginToolBar()
         self.act_hotlink = QAction(QIcon(":plugins/Hotlink/hotlink.png"),  ("Hotlink"),  self.iface.mainWindow())
         self.act_hotlink.setCheckable(True)
-        self.toolBar.addAction(self.act_hotlink)
         # Activate on button pressed
         self.act_hotlink.triggered.connect(self.do_hotlink)
+
+        try:
+            from aeag import aeag
+            self.toolBar = aeag.aeagToolbarAdd(self.act_hotlink)
+        except:
+            self.toolBar = self.iface.pluginToolBar()
+            self.toolBar.addAction(self.act_hotlink)
+            self.iface.addPluginToMenu("&Hotlink", self.action)
     
     def unload(self):
         """Remove action
         """
-        self.toolBar.removeAction(self.act_hotlink)
+        try:
+            from aeag import aeag
+            self.toolBar = aeag.aeagToolbarRemove(self.toolBar, self.act_hotlink)
+        except:
+            self.toolBar.removeAction(self.act_hotlink)
+            self.iface.removePluginMenu("&Hotlink", self.act_hotlink)
 
     def do_hotlink(self): 
         """Activate/Deactivate plugin
