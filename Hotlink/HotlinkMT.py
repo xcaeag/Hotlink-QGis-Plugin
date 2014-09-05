@@ -20,7 +20,6 @@ class HotlinkMT(QgsMapTool):
     def __init__(self, plugin):
         """Tool initialization 
         """
-        
         QgsMapTool.__init__(self, plugin.canvas)
 
         # specifics initializations
@@ -44,7 +43,7 @@ class HotlinkMT(QgsMapTool):
             self.__pos = event.pos()
             
             # find objects
-            features = self.__getFeatures()
+            features = self._getFeatures()
     
             # if there are
             if (len(features) > 0):
@@ -56,7 +55,8 @@ class HotlinkMT(QgsMapTool):
                 self.featuresFound[0] =  {"actionName":QtGui.QApplication.translate("aeag_search", "Choose...", None, QtGui.QApplication.UnicodeUTF8), "feature":None, "layer":None, "idxAction":None}
                 idx = 1
                 tooltip = ""
-                for pk,featData in features.iteritems():
+                
+                for featData in features:
                     feat = featData["feature"]
                     layer = featData["layer"]
                     idxAction = 0
@@ -154,10 +154,10 @@ class HotlinkMT(QgsMapTool):
         layer = tab["layer"]
         self.doAction(layer, tab["idxAction"], tab["feature"])
 
-    def __getFeatures(self):
+    def _getFeatures(self):
         """Identify objects under the mouse, having actions
         """
-        features = {}
+        features = []
         
         transform = self.plugin.canvas.getCoordinateTransform()
         ll = transform.toMapCoordinates( self.__pos.x()-4, self.__pos.y()+4 )
@@ -176,7 +176,7 @@ class HotlinkMT(QgsMapTool):
                 request = QgsFeatureRequest().setFilterRect(selectRect)
                 for feature in layer.getFeatures(request):
                     if feature.geometry().intersects(rectGeom):
-                        features[idx] = {"layer":layer, "feature":feature}
+                        features.append({"layer":layer, "feature":feature})
                         idx += 1
             
         return features
