@@ -32,7 +32,7 @@ class HotlinkMT(QgsMapTool):
     def canvasPressEvent(self,event):
         pass
 
-    def findUnderlyingObjects(self, event):
+    def findUnderlyingObjects(self, event, saveFeatures):
         """On mouse movement, we identify the underlying objects
         """
         
@@ -51,8 +51,10 @@ class HotlinkMT(QgsMapTool):
                 self.plugin.canvas.setCursor(QCursor(Qt.WhatsThisCursor))
     
                 # build a list of tuples Name / feature / layer / id for construction of the tool tip, the interface of choice
-                self.featuresFound = {}
-                self.featuresFound[0] =  {"actionName":QtGui.QApplication.translate("aeag_search", "Choose...", None, QtGui.QApplication.UnicodeUTF8), "feature":None, "layer":None, "idxAction":None}
+                if saveFeatures:
+                    self.featuresFound = {}
+                    self.featuresFound[0] =  {"actionName":QtGui.QApplication.translate("aeag_search", "Choose...", None, QtGui.QApplication.UnicodeUTF8), "feature":None, "layer":None, "idxAction":None}
+                    
                 idx = 1
                 tooltip = ""
                 
@@ -70,7 +72,8 @@ class HotlinkMT(QgsMapTool):
                         except:
                             actionName = action.name()
                             
-                        self.featuresFound[idx] =  {"actionName":"    "+actionName, "feature":feat, "layer":layer, "idxAction":idxAction}
+                        if saveFeatures:
+                            self.featuresFound[idx] =  {"actionName":"    "+actionName, "feature":feat, "layer":layer, "idxAction":idxAction}
                             
                         idxAction += 1
                         idx += 1
@@ -92,7 +95,9 @@ class HotlinkMT(QgsMapTool):
     
             else:
                 # without objects, restore the cursor ...
-                self.featuresFound = {}
+                if saveFeatures:
+                    self.featuresFound = {}
+                    
                 self.plugin.canvas.setCursor(QCursor(Qt.ArrowCursor))
                 self.plugin.canvas.setToolTip("")
         except:
@@ -101,7 +106,7 @@ class HotlinkMT(QgsMapTool):
     def canvasMoveEvent(self,event):
         """On mouse movement, we identify the underlying objects
         """
-        self.findUnderlyingObjects(event)
+        self.findUnderlyingObjects(event, False)
             
     def canvasDoubleClickEvent(self, event):
         pass
@@ -122,7 +127,7 @@ class HotlinkMT(QgsMapTool):
         if event.button() not in (Qt.LeftButton, Qt.RightButton):
             return
 
-        self.findUnderlyingObjects(event)
+        self.findUnderlyingObjects(event, True)
 
         # if a single action (2 lines in the list)
         if len(self.featuresFound) == 2:
