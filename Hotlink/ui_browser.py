@@ -7,6 +7,7 @@
 #
 # WARNING! All changes made in this file will be lost!
 
+from __future__ import unicode_literals
 from PyQt4 import QtCore, QtGui
 
 _fromUtf8 = lambda s: (s.decode("utf-8").encode("latin-1")) if s else s

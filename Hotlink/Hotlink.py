@@ -1,4 +1,6 @@
-﻿"""
+﻿# -*- coding: utf-8 -*-
+
+"""
 /***************************************************************************
 Name			 	 : Hotlink plugin
 Description          : Triggers actions on single click
@@ -17,6 +19,7 @@ email                : xavier.culos@eau-adour-garonne.fr
  ***************************************************************************/
  
 """
+from __future__ import unicode_literals
 # Import the PyQt and QGIS libraries
 import os
 from PyQt4.QtCore import * 
@@ -114,33 +117,20 @@ class Hotlink:
 
     @staticmethod
     def doOpenUrl(url):
-        #try:
-            #body = file(self.path+"/aeag.html").read()
-            holinkhdialog = QDialog()
-            holinkhdialog.setModal(True)
-            holinkhdialog.ui = Ui_browser()
-            holinkhdialog.ui.setupUi(holinkhdialog)
-            holinkhdialog.ui.helpContent.setUrl(QUrl(url))
-
-            holinkhdialog.ui.helpContent.page().setLinkDelegationPolicy(QtWebKit.QWebPage.DelegateExternalLinks) # Handle link clicks by yourself
-            holinkhdialog.ui.helpContent.linkClicked.connect(doLink)
-            
-            holinkhdialog.ui.helpContent.page().currentFrame().setScrollBarPolicy(Qt.Vertical, Qt.ScrollBarAlwaysOn)
-            
-            #hdialog.ui.helpContent.setHtml(body)
-            holinkhdialog.show()
-            result = holinkhdialog.exec_()
-            del holinkhdialog
-        #except:
-        #    pass
+        holinkhdialog = QDialog()
+        holinkhdialog.setModal(True)
+        holinkhdialog.ui = Ui_browser()
+        holinkhdialog.ui.setupUi(holinkhdialog)
+        holinkhdialog.ui.helpContent.setUrl(QUrl(url))
+        holinkhdialog.ui.helpContent.page().setLinkDelegationPolicy(QtWebKit.QWebPage.DelegateExternalLinks) # Handle link clicks by yourself
+        holinkhdialog.ui.helpContent.linkClicked.connect(doLink)
+        holinkhdialog.ui.helpContent.page().currentFrame().setScrollBarPolicy(Qt.Vertical, Qt.ScrollBarAlwaysOn)
+        holinkhdialog.show()
+        result = holinkhdialog.exec_()
+        del holinkhdialog
         
 def doLink( url ):
     if url.host() == "" :
         holinkhdialog.ui.helpContent.page().currentFrame().load(url)
-        #self.hdialog.ui.helpContent.page().triggerAction(QtWebKit.QWebPage.OpenLink)
-        #return False #self.hdialog.ui.helpContent.setUrl(url)
     else:
         QDesktopServices.openUrl( url )
-
-    
-    #openUrl = Callable(openUrl)

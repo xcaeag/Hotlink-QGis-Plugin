@@ -1,6 +1,9 @@
-﻿"""@package HotlinkMT
+﻿# -*- coding: utf-8 -*-
+
+"""@package HotlinkMT
 """
 
+from __future__ import unicode_literals
 from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
@@ -10,9 +13,6 @@ import re
 
 from Hotlink_chooser_dlg import ChooserDlg
 
-_fromUtf8 = lambda s: (s.decode("utf-8").encode("latin-1")) if s else s
-_toUtf8 = lambda s: s.decode("latin-1").encode("utf-8") if s else s
-    
 class HotlinkMT(QgsMapTool):
     """Hotlink tool. It is this class that manages the mouse capture...
     """
@@ -24,13 +24,17 @@ class HotlinkMT(QgsMapTool):
 
         # specifics initializations
         self.plugin = plugin
-        self.featuresFound = {}
+        self.featuresFound = []
         self.ixFeature = 0
         self.__pos = None
         self.chooserDlg = None
 
-    def canvasPressEvent(self,event):
+    def canvasPressEvent(self, event):
         pass
+
+    def iterAllActions(self, layer):
+        for i in range(layer.actions().size()):
+            yield layer.actions()[i]
 
     def findUnderlyingObjects(self, event, saveFeatures):
         """On mouse movement, we identify the underlying objects
@@ -44,59 +48,48 @@ class HotlinkMT(QgsMapTool):
             
             # find objects
             features = self._getFeatures()
-    
+
             # if there are
-            if (len(features) > 0):
+            if features:
                 # adjust the cursor
                 self.plugin.canvas.setCursor(QCursor(Qt.WhatsThisCursor))
-    
+
                 # build a list of tuples Name / feature / layer / id for construction of the tool tip, the interface of choice
                 if saveFeatures:
-                    self.featuresFound = {}
-                    self.featuresFound[0] =  {"actionName":QtGui.QApplication.translate("aeag_search", "Choose...", None, QtGui.QApplication.UnicodeUTF8), "feature":None, "layer":None, "idxAction":None}
+                    self.featuresFound = [ {"actionName":QtGui.QApplication.translate("aeag_search", "Choose...", None, QtGui.QApplication.UnicodeUTF8), "feature":None, "layer":None, "idxAction":None} ]
                     
-                idx = 1
-                tooltip = ""
-                
+                tooltip = []
+             
                 for featData in features:
                     feat = featData["feature"]
                     layer = featData["layer"]
-                    idxAction = 0
-                    while idxAction < layer.actions().size():
-                        action = layer.actions()[idxAction]
+                    for idxAction, action in ((idxAction, layer.actions()[idxAction]) for idxAction in range(layer.actions().size())):
                         try:
                             if layer.displayField() and feat.attribute(layer.displayField()):
-                                actionName = action.name() + " (" + feat.attribute(layer.displayField())+")"
+                                actionName = '{0} ({1})'.format(action.name(), feat.attribute(layer.displayField()))
                             else:
                                 actionName = action.name()
                         except:
                             actionName = action.name()
                             
                         if saveFeatures:
-                            self.featuresFound[idx] =  {"actionName":"    "+actionName, "feature":feat, "layer":layer, "idxAction":idxAction}
+                            self.featuresFound.append( {"actionName":"    "+actionName, "feature":feat, "layer":layer, "idxAction":idxAction} )
                             
-                        idxAction += 1
-                        idx += 1
-    
-                    # tool tip
-                    if tooltip != "":
-                        tooltip += "\n"
-
                     try:
                         if layer.displayField() and feat.attribute(layer.displayField()):
-                            tooltip += layer.name() + " - " + feat.attribute(layer.displayField())
+                            tooltip.append(layer.name() + " - " + feat.attribute(layer.displayField()))
                         else:
-                            tooltip += layer.name() 
+                            tooltip.append(layer.name())
                     except:
-                        tooltip += layer.name() 
-    
+                        tooltip.append(layer.name())
+
                 # display
-                self.plugin.canvas.setToolTip(tooltip)
-    
+                self.plugin.canvas.setToolTip('\n'.join(tooltip))
+
             else:
                 # without objects, restore the cursor ...
                 if saveFeatures:
-                    self.featuresFound = {}
+                    self.featuresFound = []
                     
                 self.plugin.canvas.setCursor(QCursor(Qt.ArrowCursor))
                 self.plugin.canvas.setToolTip("")
@@ -130,6 +123,8 @@ class HotlinkMT(QgsMapTool):
         self.findUnderlyingObjects(event, True)
 
         # if a single action (2 lines in the list)
+        #QgsMessageLog.logMessage("Nb "+str(len(self.featuresFound)), 'Extensions')
+        
         if len(self.featuresFound) == 2:
             layer = self.featuresFound[1]["layer"]
             idx = self.featuresFound[1]["idxAction"]
@@ -150,14 +145,16 @@ class HotlinkMT(QgsMapTool):
         pass
         
     def doAction(self, layer, idx, feature):
-        layer.actions().doActionFeature(idx, feature)
+        if layer.actions().at(idx).action() == 'openFeatureForm':
+            self.plugin.iface.openFeatureForm(layer, feature)
+        else :  
+            layer.actions().doActionFeature(idx, feature)
         
     def onChoose(self, idx):
         """Do action
         """
         tab = self.featuresFound[idx]
-        layer = tab["layer"]
-        self.doAction(layer, tab["idxAction"], tab["feature"])
+        self.doAction(tab["layer"], tab["idxAction"], tab["feature"])
 
     def _getFeatures(self):
         """Identify objects under the mouse, having actions
@@ -170,7 +167,6 @@ class HotlinkMT(QgsMapTool):
         selectRect =  QgsRectangle (ll.x(), ll.y(), ur.x(), ur.y())
         rectGeom = QgsGeometry.fromRect(selectRect)
 
-        idx = 0
         for layer in self.plugin.canvas.layers():
             # treat only vector layers having actions
             if layer.type() == QgsMapLayer.VectorLayer and layer.actions().size() > 0:
@@ -182,6 +178,5 @@ class HotlinkMT(QgsMapTool):
                 for feature in layer.getFeatures(request):
                     if feature.geometry().intersects(rectGeom):
                         features.append({"layer":layer, "feature":feature})
-                        idx += 1
             
         return features
