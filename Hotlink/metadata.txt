@@ -9,6 +9,10 @@
 name=Hotlink
 qgisMinimumVersion=2.8
 description=Triggers actions on single click
+    To facilitate the use of actions attached to vector layers
+about=When the plugin is activated (button in the toolbar), 
+    the objects "carriers" of actions become "clickable". 
+    
 version=0.7.3
 
 changelog=0.7.3 : some code cleaning
