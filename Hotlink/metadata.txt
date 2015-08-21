@@ -7,11 +7,12 @@
 
 [general]
 name=Hotlink
-qgisMinimumVersion=2.2
+qgisMinimumVersion=2.8
 description=Triggers actions on single click
-version=0.7.2
+version=0.7.3
 
-changelog=0.7.2 : conflict between two lists and crash
+changelog=0.7.3 : some code cleaning
+    0.7.2 : bug fix : conflict between two lists and crash
     0.7.1 : fix incompatibility with html tooltip
     0.7 : QGis 2.2 compatible 
     0.6 : bug fix - numeric display fields failed.

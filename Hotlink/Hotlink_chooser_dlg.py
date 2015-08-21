@@ -1,5 +1,7 @@
-﻿from ui_Hotlink_chooser_dlg import Ui_Dialog
+﻿# -*- coding: utf-8 -*-
 
+from __future__ import unicode_literals
+from ui_Hotlink_chooser_dlg import Ui_Dialog
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
@@ -29,14 +31,13 @@ class ChooserDlg(QDialog, Ui_Dialog):
         self.y = y
 
         self.comboBox.currentIndexChanged.connect(self.onChoose)
-        
 
     def populateActions(self):
         """Populate 
         """
         self.comboBox.clear()
-        for id,tab in self.featuresFound.iteritems():
-            self.comboBox.addItem(tab["actionName"], (tab) )
+        for tab in self.featuresFound:
+            self.comboBox.addItem(tab["actionName"], tab)
 
     def onChoose(self):
         """Triggered by the choice of an action from the list
