@@ -79,7 +79,7 @@ class Hotlink:
         except:
             self.toolBar = self.iface.pluginToolBar()
             self.toolBar.addAction(self.act_hotlink)
-            self.iface.addPluginToMenu("&Hotlink", self.action)
+            self.iface.addPluginToMenu("&Hotlink", self.act_hotlink)
     
     def unload(self):
         """Remove action
