@@ -28,13 +28,11 @@ class HotlinkMT(QgsMapTool):
         self.ixFeature = 0
         self.__pos = None
         self.chooserDlg = None
-
+        self.request = QgsFeatureRequest()
+        self.request.setFlags(QgsFeatureRequest.Flags(QgsFeatureRequest.NoGeometry | QgsFeatureRequest.ExactIntersect))
+        
     def canvasPressEvent(self, event):
         pass
-
-    def iterAllActions(self, layer):
-        for i in range(layer.actions().size()):
-            yield layer.actions()[i]
 
     def findUnderlyingObjects(self, event, saveFeatures):
         """On mouse movement, we identify the underlying objects
@@ -162,21 +160,17 @@ class HotlinkMT(QgsMapTool):
         features = []
         
         transform = self.plugin.canvas.getCoordinateTransform()
-        ll = transform.toMapCoordinates( self.__pos.x()-4, self.__pos.y()+4 )
-        ur = transform.toMapCoordinates( self.__pos.x()+4, self.__pos.y()-4)
+        ll = transform.toMapCoordinates( self.__pos.x()-3, self.__pos.y()+3 )
+        ur = transform.toMapCoordinates( self.__pos.x()+3, self.__pos.y()-3)
         selectRect =  QgsRectangle (ll.x(), ll.y(), ur.x(), ur.y())
         rectGeom = QgsGeometry.fromRect(selectRect)
 
         for layer in self.plugin.canvas.layers():
             # treat only vector layers having actions
-            if layer.type() == QgsMapLayer.VectorLayer and layer.actions().size() > 0:
-                provider = layer.dataProvider()
-                allAttrs = provider.attributeIndexes()
-                
+            if layer.type() == QgsMapLayer.VectorLayer and layer.actions().size() > 0:                
                 # selection (bbox intersections)
-                request = QgsFeatureRequest().setFilterRect(selectRect)
-                for feature in layer.getFeatures(request):
-                    if feature.geometry().intersects(rectGeom):
-                        features.append({"layer":layer, "feature":feature})
+                self.request.setFilterRect(selectRect)
+                for feature in layer.getFeatures(self.request):
+                    features.append({"layer":layer, "feature":feature})
             
         return features
