@@ -1,19 +1,13 @@
-# This file contains metadata for your plugin. Beginning
-# with version 1.8 this is the preferred way to supply information about a
-# plugin. The current method of embedding metadata in __init__.py will
-# be supported until version 2.0
-
-# This file should be included when you package your plugin.
-
 [general]
 name=Hotlink
-qgisMinimumVersion=2.8
+qgisMinimumVersion=2.12
 description=Triggers actions on single click to facilitate the use of actions attached to vector layers
 about=When the plugin is activated (button in the toolbar), 
     the objects "carriers" of actions become "clickable". 
     
-version=0.7.4
-changelog=0.7.4 : better use of QgsFeatureRequest
+version=0.7.5
+changelog=0.7.5 : Support for QGIS expression for hotlinks (Peter Petrik)
+    0.7.4 : better use of QgsFeatureRequest
     0.7.3 : some code cleaning
     0.7.2 : bug fix : conflict between two lists and crash
     0.7.1 : fix incompatibility with html tooltip

@@ -69,7 +69,7 @@ class HotlinkMT(QgsMapTool):
             # if there are
             if features:
                 # adjust the cursor
-                self.plugin.canvas.setCursor(QCursor(Qt.WhatsThisCursor))
+                self.canvas.setCursor(QCursor(Qt.WhatsThisCursor))
 
                 # build a list of tuples Name / feature / layer / id for construction of the tool tip, the interface of choice
                 if saveFeatures:
@@ -95,15 +95,15 @@ class HotlinkMT(QgsMapTool):
                         tooltip.append(self._layer_tooltip(layer, feat))
 
                 # display
-                self.plugin.canvas.setToolTip('\n'.join(tooltip))
+                self.canvas.setToolTip('\n'.join(tooltip))
 
             else:
                 # without objects, restore the cursor ...
                 if saveFeatures:
                     self.featuresFound = []
 
-                self.plugin.canvas.setCursor(QCursor(Qt.ArrowCursor))
-                self.plugin.canvas.setToolTip("")
+                self.canvas.setCursor(QCursor(Qt.ArrowCursor))
+                self.canvas.setToolTip("")
         except:
             pass
 
@@ -145,7 +145,7 @@ class HotlinkMT(QgsMapTool):
 
         else:
             # to choose the action to trigger
-            canvasPos = self.plugin.canvas.mapToGlobal(QPoint(0,0))
+            canvasPos = self.canvas.mapToGlobal(QPoint(0,0))
             self.chooserDlg = ChooserDlg(self, self.featuresFound, canvasPos.x() + self.__pos.x(), canvasPos.y() + self.__pos.y())
             self.chooserDlg.go()
 
@@ -175,7 +175,7 @@ class HotlinkMT(QgsMapTool):
 
         features = []
 
-        for layer in self.plugin.canvas.layers():
+        for layer in self.canvas.layers():
             # treat only vector layers having actions
             if layer.type() == QgsMapLayer.VectorLayer and layer.actions().size() > 0:
                 rect = QgsRectangle()
