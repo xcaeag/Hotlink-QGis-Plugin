@@ -26,6 +26,7 @@ class HotlinkMT(QgsMapTool):
         self.canvas = plugin.canvas
         self.plugin = plugin
         self.featuresFound = []
+        self.uniqueFeaturesFound = []
         self.ixFeature = 0
         self.__pos = None
         self.chooserDlg = None
@@ -90,9 +91,18 @@ class HotlinkMT(QgsMapTool):
                             actionName = action.name()
 
                         if saveFeatures:
-                            self.featuresFound.append( {"actionName":"    "+actionName, "feature":feat, "layer":layer, "idxAction":idxAction} )
+                            try:
+                                self.uniqueFeaturesFound.index({"actionName":"    "+actionName, "feature":feat.id() } )
+                            except:
+                                self.uniqueFeaturesFound.append( {"actionName":"    "+actionName, "feature":feat.id() } )
+                                self.featuresFound.append( {"actionName":"    "+actionName, "feature":feat, "layer":layer, "idxAction":idxAction} )
 
-                        tooltip.append(self._layer_tooltip(layer, feat))
+                        tip = self._layer_tooltip(layer, feat)
+                        try:
+                            tooltip.index(tip)
+                        except:
+                            tooltip.append(tip)
+                            pass
 
                 # display
                 self.canvas.setToolTip('\n'.join(tooltip))
@@ -100,6 +110,7 @@ class HotlinkMT(QgsMapTool):
             else:
                 # without objects, restore the cursor ...
                 if saveFeatures:
+                    self.uniqueFeaturesFound = []
                     self.featuresFound = []
 
                 self.canvas.setCursor(QCursor(Qt.ArrowCursor))
