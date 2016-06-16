@@ -92,9 +92,9 @@ class HotlinkMT(QgsMapTool):
 
                         if saveFeatures:
                             try:
-                                self.uniqueFeaturesFound.index({"actionName":"    "+actionName, "feature":feat.id() } )
+                                self.uniqueFeaturesFound.index({"actionName":"    "+actionName, "feature":feat.id(), "action":action.action() } )
                             except:
-                                self.uniqueFeaturesFound.append( {"actionName":"    "+actionName, "feature":feat.id() } )
+                                self.uniqueFeaturesFound.append( {"actionName":"    "+actionName, "feature":feat.id(), "action":action.action() } )
                                 self.featuresFound.append( {"actionName":"    "+actionName, "feature":feat, "layer":layer, "idxAction":idxAction} )
 
                         tip = self._layer_tooltip(layer, feat)
@@ -178,8 +178,6 @@ class HotlinkMT(QgsMapTool):
                     self.plugin.iface.messageBar().pushMessage("Attention", "Un formulaire est déjà ouvert, veuillez le fermer.", level=QgsMessageBar.WARNING)                    
             except:
                 self.plugin.iface.openFeatureForm(layer, feature)
-        else :  
-            self.plugin.iface.openFeatureForm(layer, feature)
         else :
             layer.actions().doActionFeature(idx, feature)
 
