@@ -108,7 +108,8 @@ class HotlinkMT(QgsMapTool):
                             pass
 
                 # display
-                self.canvas.setToolTip('<p>'+'<br/>'.join(tooltip)+'</p>')
+                if (self.plugin.optionShowTips):
+                    self.canvas.setToolTip('<p>'+'<br/>'.join(tooltip)+'</p>')
 
             else:
                 # without objects, restore the cursor ...
@@ -117,7 +118,8 @@ class HotlinkMT(QgsMapTool):
                     self.featuresFound = []
 
                 self.canvas.setCursor(QCursor(Qt.ArrowCursor))
-                self.canvas.setToolTip("")
+                if (self.plugin.optionShowTips):
+                    self.canvas.setToolTip("")
         except:
             pass
 

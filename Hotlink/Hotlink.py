@@ -54,6 +54,8 @@ class Hotlink:
         self.__oldMapTool = None
         self.canvas = self.iface.mapCanvas()
         self.active = False
+        self.optionShowTips = False
+        self.read()       
         
         locale = QSettings().value("locale/userLocale")
         myLocale = locale[0:2]
@@ -67,6 +69,17 @@ class Hotlink:
             if qVersion() > '4.3.3':
                 QCoreApplication.installTranslator(self.translator)
 
+    def store(self):
+        s = QSettings()
+        s.setValue("Hotlink/optionShowTips", (self.optionShowTips))
+        
+    def read(self):
+        s = QSettings()
+        try:
+            self.optionShowTips = s.value("Hotlink/optionShowTips", (False), type=bool)            
+        except:
+            pass
+            
     def initGui(self):  
         self.toolBar = self.iface.pluginToolBar()
         self.act_hotlink = QAction(QIcon(":plugins/Hotlink/hotlink.png"),  ("Hotlink"),  self.iface.mainWindow())
