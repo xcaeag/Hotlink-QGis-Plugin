@@ -35,9 +35,13 @@ class HotlinkMT(QgsMapTool):
 
     def canvasPressEvent(self, event):
         pass
-
+    
+    def escape(self, t):
+        """HTML-escape the text in `t`."""
+        return t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;") \
+            .replace("'", "&#39;").replace('"', "&quot;").replace(' ', "&nbsp;")
+    
     def _layer_tooltip(self, layer, feat):
-        tooltip = layer.name()
         df = layer.displayField()
         idx = layer.fieldNameIndex( df )
         if idx < 0:
@@ -48,11 +52,9 @@ class HotlinkMT(QgsMapTool):
             context.appendScope( QgsExpressionContextUtils.mapSettingsScope( self.canvas.mapSettings() ) )
             context.setFeature( feat )
 
-            tooltip += " - " + QgsExpression.replaceExpressionText( df, context )
+            return QgsExpression.replaceExpressionText( df, context )
         else:
-            tooltip += " - " + feat.attribute(df)
-
-        return tooltip
+            return self.escape(layer.name()) + "&nbsp;-&nbsp;" + self.escape(feat.attribute(df))
 
     def findUnderlyingObjects(self, event, saveFeatures):
         """On mouse movement, we identify the underlying objects
@@ -105,7 +107,7 @@ class HotlinkMT(QgsMapTool):
                             pass
 
                 # display
-                self.canvas.setToolTip('\n'.join(tooltip))
+                self.canvas.setToolTip('<p>'+'<br/>'.join(tooltip)+'</p>')
 
             else:
                 # without objects, restore the cursor ...
