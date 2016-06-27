@@ -35,12 +35,11 @@ class HotlinkMT(QgsMapTool):
 
     def canvasPressEvent(self, event):
         pass
-    
+
     def escape(self, t):
         """HTML-escape the text in `t`."""
-        return t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;") \
-            .replace("'", "&#39;").replace('"', "&quot;").replace(' ', "&nbsp;")
-    
+        return t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("'", "&#39;").replace('"', "&quot;").replace(' ', "&nbsp;")
+
     def _layer_tooltip(self, layer, feat):
         df = layer.displayField()
         idx = layer.fieldNameIndex( df )
@@ -107,7 +106,8 @@ class HotlinkMT(QgsMapTool):
                             pass
 
                 # display
-                self.canvas.setToolTip('<p>'+'<br/>'.join(tooltip)+'</p>')
+                if (self.plugin.optionShowTips):
+                    self.canvas.setToolTip('<p>'+'<br/>'.join(tooltip)+'</p>')
 
             else:
                 # without objects, restore the cursor ...
@@ -116,7 +116,8 @@ class HotlinkMT(QgsMapTool):
                     self.featuresFound = []
 
                 self.canvas.setCursor(QCursor(Qt.ArrowCursor))
-                self.canvas.setToolTip("")
+                if (self.plugin.optionShowTips):
+                    self.canvas.setToolTip("")
         except:
             pass
 

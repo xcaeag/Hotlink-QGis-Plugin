@@ -6,7 +6,8 @@ about=When the plugin is activated (button in the toolbar),
     the objects "carriers" of actions become "clickable". 
 
 version=0.7.7
-changelog=0.7.7 : Better tooltip build. Still impose a HTML version for better interpretation by QT.
+changelog=0.7.7 : Better tooltip build. Still impose a HTML version for better interpretation by QT. 
+    By default, tips are not displayed because of conflict with default qgis map tip. 
     0.7.6 : Remove duplicate lines in tooltip, popup
     0.7.5 : Support for QGIS expression for hotlinks (Peter Petrik)
     0.7.4 : better use of QgsFeatureRequest
