@@ -51,7 +51,7 @@ class HotlinkMT(QgsMapTool):
             context.appendScope( QgsExpressionContextUtils.mapSettingsScope( self.canvas.mapSettings() ) )
             context.setFeature( feat )
 
-            return QgsExpression.replaceExpressionText( df, context )
+            return QgsExpression.replaceExpressionText( df, context ).replace('\n', "<br/>")
         else:
             return self.escape(layer.name()) + "&nbsp;-&nbsp;" + self.escape(feat.attribute(df))
 
@@ -72,11 +72,13 @@ class HotlinkMT(QgsMapTool):
 
             # if there are
             if features:
+                #QgsMessageLog.logMessage(str(len(features))+" objets trouvés", 'Extensions')
                 # adjust the cursor
                 self.canvas.setCursor(QCursor(Qt.WhatsThisCursor))
 
                 # build a list of tuples Name / feature / layer / id for construction of the tool tip, the interface of choice
                 if saveFeatures:
+                    self.uniqueFeaturesFound = []
                     self.featuresFound = [ {"actionName":QtGui.QApplication.translate("aeag_search", "Choose...", None, QtGui.QApplication.UnicodeUTF8), "feature":None, "layer":None, "idxAction":None} ]
 
                 tooltip = []
@@ -126,7 +128,8 @@ class HotlinkMT(QgsMapTool):
     def canvasMoveEvent(self,event):
         """On mouse movement, we identify the underlying objects
         """
-        self.findUnderlyingObjects(event, False)
+        if (self.plugin.optionShowTips):
+            self.findUnderlyingObjects(event, False)
 
     def canvasDoubleClickEvent(self, event):
         pass
@@ -150,8 +153,6 @@ class HotlinkMT(QgsMapTool):
         self.findUnderlyingObjects(event, True)
 
         # if a single action (2 lines in the list)
-        #QgsMessageLog.logMessage("Nb "+str(len(self.featuresFound)), 'Extensions')
-
         if len(self.featuresFound) == 2:
             layer = self.featuresFound[1]["layer"]
             idx = self.featuresFound[1]["idxAction"]
@@ -191,16 +192,15 @@ class HotlinkMT(QgsMapTool):
 
         features = []
 
+        rect = QgsRectangle()
+        rect.setXMinimum(point.x() - searchRadius)
+        rect.setXMaximum(point.x() + searchRadius)
+        rect.setYMinimum(point.y() - searchRadius)
+        rect.setYMaximum(point.y() + searchRadius)
         for layer in self.canvas.layers():
             # treat only vector layers having actions
             if layer.type() == QgsMapLayer.VectorLayer and layer.actions().size() > 0:
-                rect = QgsRectangle()
-                rect.setXMinimum(point.x() - searchRadius)
-                rect.setXMaximum(point.x() + searchRadius)
-                rect.setYMinimum(point.y() - searchRadius)
-                rect.setYMaximum(point.y() + searchRadius)
-                rect = self.toLayerCoordinates(layer, rect)
-                self.request.setFilterRect(rect)
+                self.request.setFilterRect(self.toLayerCoordinates(layer, rect))
                 for feature in layer.getFeatures(self.request):
                     features.append({"layer":layer, "feature":feature})
 
