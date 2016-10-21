@@ -33,8 +33,51 @@ import resources
 from HotlinkMT import HotlinkMT
 from ui_browser import Ui_browser
 
-
 holinkhdialog = None
+
+"""
+    Register click_x variable
+    Usage exemple :
+        QgsExpression.functionIndex("$click_x")
+        e = QgsExpression("$click_x")
+        e.evaluate()
+"""
+class ClickXFunction( QgsExpression.Function ):
+    def __init__( self, hotlink ):
+        QgsExpression.Function.__init__(self, "$click_x", 0, "Python", self.tr("""<h1>$click_x</h1>
+Variable filled by hotlink plugin, when a click occured.<br/>
+<h2>Return value</h2>
+The X coordinate in current SRID
+        """))
+        self.hotlink = hotlink
+
+    def tr(self, message):
+        return QCoreApplication.translate('ClickXFunction', message)
+
+    def func(self, values, feature, parent):
+        return self.hotlink.clickX()
+
+"""
+    Register click_y variable
+    Usage exemple :
+        QgsExpression.functionIndex("$click_y")
+        e = QgsExpression("$click_y")
+        e.evaluate()
+"""
+class ClickYFunction( QgsExpression.Function ):
+    def __init__( self, hotlink ):
+        QgsExpression.Function.__init__(self, "$click_y", 0, "Python", self.tr("""<h1>$click_y</h1>
+Variable filled by hotlink plugin, when a click occured.<br/>
+<h2>Return value</h2>
+The Y coordinate in current SRID
+        """))
+        self.hotlink = hotlink
+
+    def tr(self, message):
+        return QCoreApplication.translate('ClickYFunction', message)
+
+    def func(self, values, feature, parent):
+        return self.hotlink.clickY()
 
 class Hotlink: 
     """Hotlink - main class
@@ -57,6 +100,12 @@ class Hotlink:
         self.optionShowTips = False
         self.read()       
         
+        self.clickX_function = ClickXFunction( self )
+        QgsExpression.registerFunction( self.clickX_function )
+
+        self.clickY_function = ClickYFunction( self )
+        QgsExpression.registerFunction( self.clickY_function )
+
         locale = QSettings().value("locale/userLocale")
         myLocale = locale[0:2]
         
@@ -68,6 +117,18 @@ class Hotlink:
         
             if qVersion() > '4.3.3':
                 QCoreApplication.installTranslator(self.translator)
+
+    def clickX(self):
+        try:
+            return self.__mapTool.pos().x() 
+        except:
+            return None
+        
+    def clickY(self):
+        try:
+            return self.__mapTool.pos().y() 
+        except:
+            return None
 
     def store(self):
         s = QSettings()
@@ -87,7 +148,7 @@ class Hotlink:
         self.toolBar.addAction(self.act_hotlink)
         # Activate on button pressed
         self.act_hotlink.triggered.connect(self.do_hotlink)
-    
+
     def unload(self):
         """Remove action
         """
@@ -111,7 +172,6 @@ class Hotlink:
         self.canvas.setCursor(QCursor(Qt.ArrowCursor))
         self.canvas.setFocus(Qt.OtherFocusReason)
             
-        # others plugisn deactivation
         self.canvas.mapToolSet.connect(self.deactivate)
     
     def deactivate(self):
@@ -125,6 +185,10 @@ class Hotlink:
         self.canvas.unsetMapTool(self.__mapTool)
         self.canvas.setMapTool(self.__oldMapTool)
         self.canvas.setToolTip("")
+
+        # what happend if another plugin has registered the same expression before ?
+        # QgsExpression.unregisterFunction( "$click_x" )
+        # QgsExpression.unregisterFunction( "$click_y" )
         
         del self.__mapTool
 

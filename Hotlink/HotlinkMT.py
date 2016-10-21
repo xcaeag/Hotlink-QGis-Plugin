@@ -33,6 +33,12 @@ class HotlinkMT(QgsMapTool):
         self.request = QgsFeatureRequest()
         self.request.setFlags(QgsFeatureRequest.Flags(QgsFeatureRequest.NoGeometry | QgsFeatureRequest.ExactIntersect))
 
+    def pos(self):
+        try:
+            return self.toMapCoordinates(self.__pos)
+        except:
+            return None
+        
     def canvasPressEvent(self, event):
         pass
 
