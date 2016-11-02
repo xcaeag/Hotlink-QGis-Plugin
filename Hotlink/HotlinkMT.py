@@ -59,7 +59,7 @@ class HotlinkMT(QgsMapTool):
 
             return QgsExpression.replaceExpressionText( df, context ).replace('\n', "<br/>")
         else:
-            return self.escape(layer.name()) + "&nbsp;-&nbsp;" + self.escape(feat.attribute(df))
+            return self.escape(layer.name()) + "&nbsp;-&nbsp;" + self.escape(unicode(feat.attribute(df)))
 
         return tooltip
 
@@ -113,7 +113,6 @@ class HotlinkMT(QgsMapTool):
                             tooltip.index(tip)
                         except:
                             tooltip.append(tip)
-                            pass
 
                 # display
                 if (self.plugin.optionShowTips):
