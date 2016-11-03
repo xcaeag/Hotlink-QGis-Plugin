@@ -33,6 +33,12 @@ class HotlinkMT(QgsMapTool):
         self.request = QgsFeatureRequest()
         self.request.setFlags(QgsFeatureRequest.Flags(QgsFeatureRequest.NoGeometry | QgsFeatureRequest.ExactIntersect))
 
+    def pos(self):
+        try:
+            return self.toMapCoordinates(self.__pos)
+        except:
+            return None
+        
     def canvasPressEvent(self, event):
         pass
 
@@ -53,7 +59,7 @@ class HotlinkMT(QgsMapTool):
 
             return QgsExpression.replaceExpressionText( df, context ).replace('\n', "<br/>")
         else:
-            return self.escape(layer.name()) + "&nbsp;-&nbsp;" + self.escape(feat.attribute(df))
+            return self.escape(layer.name()) + "&nbsp;-&nbsp;" + self.escape(unicode(feat.attribute(df)))
 
     def findUnderlyingObjects(self, event, saveFeatures):
         """On mouse movement, we identify the underlying objects
@@ -105,7 +111,6 @@ class HotlinkMT(QgsMapTool):
                             tooltip.index(tip)
                         except:
                             tooltip.append(tip)
-                            pass
 
                 # display
                 if (self.plugin.optionShowTips):
