@@ -44,7 +44,7 @@ holinkhdialog = None
 """
 class ClickXFunction( QgsExpression.Function ):
     def __init__( self, hotlink ):
-        QgsExpression.Function.__init__(self, "$click_x", 0, "Python", self.tr("""<h1>$click_x</h1>
+        QgsExpression.Function.__init__(self, "$hotlink_x", 0, "Python", self.tr("""<h1>$hotlink_x</h1>
 Variable filled by hotlink plugin, when a click occured.<br/>
 <h2>Return value</h2>
 The X coordinate in current SRID
@@ -66,7 +66,7 @@ The X coordinate in current SRID
 """
 class ClickYFunction( QgsExpression.Function ):
     def __init__( self, hotlink ):
-        QgsExpression.Function.__init__(self, "$click_y", 0, "Python", self.tr("""<h1>$click_y</h1>
+        QgsExpression.Function.__init__(self, "$hotlink_y", 0, "Python", self.tr("""<h1>$hotlink_y</h1>
 Variable filled by hotlink plugin, when a click occured.<br/>
 <h2>Return value</h2>
 The Y coordinate in current SRID
@@ -100,11 +100,11 @@ class Hotlink:
         self.optionShowTips = False
         self.read()       
         
-        self.clickX_function = ClickXFunction( self )
-        QgsExpression.registerFunction( self.clickX_function )
+        #self.clickX_function = ClickXFunction( self )
+        #QgsExpression.registerFunction( self.clickX_function )
 
-        self.clickY_function = ClickYFunction( self )
-        QgsExpression.registerFunction( self.clickY_function )
+        #self.clickY_function = ClickYFunction( self )
+        #QgsExpression.registerFunction( self.clickY_function )
 
         locale = QSettings().value("locale/userLocale")
         myLocale = locale[0:2]
