@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 """@package HotlinkMT
 """
@@ -181,7 +181,18 @@ class HotlinkMT(QgsMapTool):
         if layer.actions().at(idx).action() == 'openFeatureForm':
             self.plugin.iface.openFeatureForm(layer, feature)
         else :
-            layer.actions().doActionFeature(idx, feature)
+            ctxt = QgsExpressionContext()
+            ctxt.appendScope(QgsExpressionContextUtils.globalScope())
+            ctxt.appendScope(QgsExpressionContextUtils.projectScope())
+            ctxt.appendScope(QgsExpressionContextUtils.mapSettingsScope(self.canvas.mapSettings()))
+            # Add click_x and click_y to context
+            p = self.toLayerCoordinates(layer, self.pos())
+            myScope = QgsExpressionContextScope()
+            myScope.addVariable(QgsExpressionContextScope.StaticVariable("click_x", p.x(), True))
+            myScope.addVariable(QgsExpressionContextScope.StaticVariable("click_y", p.y(), True))
+            ctxt.appendScope(myScope)
+
+            layer.actions().doAction(idx, feature, ctxt)
 
     def onChoose(self, idx):
         """Do action
