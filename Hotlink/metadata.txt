@@ -1,6 +1,6 @@
 [general]
 name=Hotlink
-qgisMinimumVersion=2.12
+qgisMinimumVersion=2.16
 description=Triggers actions on single click to facilitate the use of actions attached to vector layers
 about=When the plugin is activated (button in the toolbar), 
     the objects "carriers" of actions become "clickable". 
