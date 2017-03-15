@@ -1,8 +1,5 @@
 from .ui_Hotlink_chooser_dlg import Ui_Dialog
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-
-from qgis.core import *
+from PyQt5.QtWidgets import QDialog
 
 class ChooserDlg(QDialog, Ui_Dialog):
     """GUI allows the user to choose the action to be triggered (if any)

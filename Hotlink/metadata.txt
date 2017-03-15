@@ -1,12 +1,14 @@
 [general]
 name=Hotlink
-qgisMinimumVersion=2.16
+qgisMinimumVersion=2.99
 description=Triggers actions on single click to facilitate the use of actions attached to vector layers
 about=When the plugin is activated (button in the toolbar), 
     the objects "carriers" of actions become "clickable". 
     
-version=0.7.9
-changelog=0.7.9 : filling @click_x and @click_y variables
+version=0.8.0
+changelog=
+    0.8.0 : Migration for QGIS3 
+    0.7.9 : filling @click_x and @click_y variables
     0.7.8 : fix bug with integer fields (#7)
     0.7.7 : Better tooltip build. Still impose a HTML version for better interpretation by QT. 
     By default, tips are not displayed because of conflict with default qgis map tip. 

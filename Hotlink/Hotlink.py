@@ -22,10 +22,12 @@ email                : xavier.culos@eau-adour-garonne.fr
 
 # Import the PyQt and QGIS libraries
 import os
-from PyQt4.QtCore import * 
-from PyQt4.QtGui import *
+from PyQt5.QtCore import (Qt, QTranslator, QCoreApplication, QSettings, QFileInfo, QUrl)
+from PyQt5.QtWidgets import (QAction, QDialog)
+from PyQt5.QtGui import (QIcon, QCursor, QDesktopServices)
+from PyQt5 import QtWebKit
+
 from qgis.core import *
-from PyQt4 import QtCore, QtGui, QtWebKit
 
 # Initialize Qt resources from file resources.py
 from . import resources
@@ -114,9 +116,7 @@ class Hotlink:
         if QFileInfo(localePath).exists():
             self.translator = QTranslator()
             self.translator.load(localePath)
-        
-            if qVersion() > '4.3.3':
-                QCoreApplication.installTranslator(self.translator)
+            QCoreApplication.installTranslator(self.translator)
 
     def clickX(self):
         try:
