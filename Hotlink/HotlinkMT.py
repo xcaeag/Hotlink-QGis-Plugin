@@ -21,11 +21,9 @@ class HotlinkMT(QgsMapTool):
         """
         QgsMapTool.__init__(self, plugin.canvas)
 
-        # specifics initializations
         self.canvas = plugin.canvas
         self.plugin = plugin
         self.featuresFound = []
-        #self.uniqueFeaturesFound = []
         self.ixFeature = 0
         self.__pos = None
         self.chooserDlg = None
@@ -46,21 +44,24 @@ class HotlinkMT(QgsMapTool):
         return t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("'", "&#39;").replace('"', "&quot;").replace(' ', "&nbsp;")
 
     def _layer_tooltip(self, layer, feat):
-        df = layer.displayField()
         try:
-            f = layer.fields().field(df)
-            return self.escape(layer.name()) + "&nbsp;-&nbsp;" + self.escape(str(feat.attribute(df)))
+            df = layer.displayField()
+            if df:
+                f = layer.fields().field(df)
+                return self.escape(layer.name()) + "&nbsp;-&nbsp;" + self.escape(str(feat.attribute(df)))
+            else:
+                context = QgsExpressionContext()
+                context.appendScope(QgsExpressionContextUtils.globalScope())
+                context.appendScope(QgsExpressionContextUtils.projectScope(QgsProject.instance()))
+                context.appendScope(QgsExpressionContextUtils.layerScope(layer))
+                context.appendScope(QgsExpressionContextUtils.mapSettingsScope( self.canvas.mapSettings() ) )
+                context.setFeature( feat )
+                
+                x = QgsExpression(layer.displayExpression())
+                x.prepare(context)
+                return x.evaluate(context).replace('\n', "<br/>")
         except:
-            context = QgsExpressionContext()
-            context.appendScope(QgsExpressionContextUtils.globalScope())
-            context.appendScope(QgsExpressionContextUtils.projectScope(QgsProject.instance()))
-            context.appendScope(QgsExpressionContextUtils.layerScope(layer))
-            context.appendScope(QgsExpressionContextUtils.mapSettingsScope( self.canvas.mapSettings() ) )
-            context.setFeature( feat )
-
-            return QgsExpression.replaceExpressionText( df, context ).replace('\n', "<br/>")
-
-        return tooltip
+            return ""
 
     def findUnderlyingObjects(self, event, saveFeatures):
         """On mouse movement, we identify the underlying objects
@@ -77,13 +78,11 @@ class HotlinkMT(QgsMapTool):
 
             # if there are
             if features:
-                #QgsMessageLog.logMessage(str(len(features))+" objets trouvés", 'Extensions')
                 # adjust the cursor
                 self.canvas.setCursor(QCursor(Qt.WhatsThisCursor))
 
                 # build a list of tuples Name / feature / layer / id for construction of the tool tip, the interface of choice
                 if saveFeatures:
-                    #self.uniqueFeaturesFound = []
                     self.featuresFound = [ {"actionName":QApplication.translate("aeag_search", "Choose...", None), "feature":None, "layer":None, "idxAction":None} ]
 
                 tooltip = []
@@ -92,22 +91,16 @@ class HotlinkMT(QgsMapTool):
                     feat = featData["feature"]
                     layer = featData["layer"]
                     for action in layer.actions().actions():
+                        tip = self._layer_tooltip(layer, feat)
+                        
                         try:
-                            if layer.displayField() and feat.attribute(layer.displayField()):
-                                actionName = '{0} ({1})'.format(action.name(), feat.attribute(layer.displayField()))
-                            else:
-                                actionName = action.name()
+                            actionName = '{0} ({1})'.format(action.name(), tip)
                         except:
                             actionName = action.name()
 
                         if saveFeatures:
-                            #try:
-                            #    self.uniqueFeaturesFound.index({"actionName":"    "+actionName, "feature":feat.id(), "action":action.command() } )
-                            #except:
-                            #    self.uniqueFeaturesFound.append( {"actionName":"    "+actionName, "feature":feat.id(), "action":action.command() } )
                             self.featuresFound.append( {"actionName":"    "+actionName, "feature":feat, "layer":layer, "idxAction":action.id()} )
 
-                        tip = self._layer_tooltip(layer, feat)
                         try:
                             tooltip.index(tip)
                         except:
@@ -120,14 +113,12 @@ class HotlinkMT(QgsMapTool):
             else:
                 # without objects, restore the cursor ...
                 if saveFeatures:
-                    #self.uniqueFeaturesFound = []
                     self.featuresFound = []
 
                 self.canvas.setCursor(QCursor(Qt.ArrowCursor))
                 if (self.plugin.optionShowTips):
                     self.canvas.setToolTip("")
         except:
-            raise
             pass
 
     def canvasMoveEvent(self,event):
@@ -185,6 +176,7 @@ class HotlinkMT(QgsMapTool):
             ctxt.appendScope(QgsExpressionContextUtils.globalScope())
             ctxt.appendScope(QgsExpressionContextUtils.projectScope(QgsProject.instance()))
             ctxt.appendScope(QgsExpressionContextUtils.mapSettingsScope(self.canvas.mapSettings()))
+
             # Add click_x and click_y to context
             p = self.toLayerCoordinates(layer, self.pos())
             myScope = QgsExpressionContextScope()
