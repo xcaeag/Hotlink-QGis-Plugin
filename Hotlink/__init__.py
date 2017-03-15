@@ -21,6 +21,6 @@ email                : xavier.culos@eau-adour-garonne.fr
 """
 def classFactory(iface): 
   # load Hotlink class from file Hotlink
-  from Hotlink import Hotlink 
+  from .Hotlink import Hotlink 
   return Hotlink(iface)
 

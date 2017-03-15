@@ -1,9 +1,6 @@
-﻿# -*- coding: utf-8 -*-
-
-from __future__ import unicode_literals
-from ui_Hotlink_chooser_dlg import Ui_Dialog
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+from .ui_Hotlink_chooser_dlg import Ui_Dialog
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
 
 from qgis.core import *
 
@@ -23,8 +20,8 @@ class ChooserDlg(QDialog, Ui_Dialog):
         QDialog.__init__(self, None)
         self.setupUi(self)
 
-        self.tool=tool
-        self.featuresFound=featuresFound
+        self.tool = tool
+        self.featuresFound = featuresFound
 
         self.populateActions()
         self.x = x

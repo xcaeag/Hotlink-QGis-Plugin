@@ -19,7 +19,7 @@ email                : xavier.culos@eau-adour-garonne.fr
  ***************************************************************************/
  
 """
-from __future__ import unicode_literals
+
 # Import the PyQt and QGIS libraries
 import os
 from PyQt4.QtCore import * 
@@ -28,10 +28,10 @@ from qgis.core import *
 from PyQt4 import QtCore, QtGui, QtWebKit
 
 # Initialize Qt resources from file resources.py
-import resources
+from . import resources
 
-from HotlinkMT import HotlinkMT
-from ui_browser import Ui_browser
+from .HotlinkMT import HotlinkMT
+from .ui_browser import Ui_browser
 
 holinkhdialog = None
 

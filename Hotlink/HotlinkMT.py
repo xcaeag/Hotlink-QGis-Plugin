@@ -3,7 +3,7 @@
 """@package HotlinkMT
 """
 
-from __future__ import unicode_literals
+
 from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
@@ -11,7 +11,7 @@ from qgis.core import *
 from qgis.gui import *
 import re
 
-from Hotlink_chooser_dlg import ChooserDlg
+from .Hotlink_chooser_dlg import ChooserDlg
 
 class HotlinkMT(QgsMapTool):
     """Hotlink tool. It is this class that manages the mouse capture...
@@ -59,7 +59,7 @@ class HotlinkMT(QgsMapTool):
 
             return QgsExpression.replaceExpressionText( df, context ).replace('\n', "<br/>")
         else:
-            return self.escape(layer.name()) + "&nbsp;-&nbsp;" + self.escape(unicode(feat.attribute(df)))
+            return self.escape(layer.name()) + "&nbsp;-&nbsp;" + self.escape(str(feat.attribute(df)))
 
         return tooltip
 

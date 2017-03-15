@@ -1,29 +1,28 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Program Files\Quantum GIS Wroclaw\apps\qgis\python\plugins\Hotlink\Hotlink_chooser_dlg.ui'
+# Form implementation generated from reading ui file 'W:\GitHub\Hotlink\Hotlink\Hotlink_chooser_dlg.ui'
 #
-# Created: Mon Jun 27 18:04:15 2011
-#      by: PyQt4 UI code generator 4.8.4
+# Created by: PyQt5 UI code generator 5.6
 #
 # WARNING! All changes made in this file will be lost!
 
-from __future__ import unicode_literals
-from PyQt4 import QtCore, QtGui
-
-_fromUtf8 = lambda s: (s.decode("utf-8").encode("latin-1")) if s else s
-_toUtf8 = lambda s: s.decode("latin-1").encode("utf-8") if s else s
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_Dialog(object):
-
     def setupUi(self, Dialog):
-        Dialog.setObjectName(_fromUtf8("Dialog"))
-        Dialog.resize(241, 22)
-        self.comboBox = QtGui.QComboBox(self)
-        self.comboBox.setGeometry(QtCore.QRect(0, 0, 241, 22))
-        self.comboBox.setObjectName(_fromUtf8("comboBox"))
+        Dialog.setObjectName("Dialog")
+        Dialog.resize(261, 171)
+        self.comboBox = QtWidgets.QComboBox(Dialog)
+        self.comboBox.setGeometry(QtCore.QRect(10, 10, 241, 22))
+        self.comboBox.setObjectName("comboBox")
+        self.choose = QtWidgets.QAction(Dialog)
+        self.choose.setObjectName("choose")
 
         self.retranslateUi(Dialog)
+        QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
-        Dialog.setWindowTitle(QtGui.QApplication.translate("aeag_search", "Actions...", None, QtGui.QApplication.UnicodeUTF8))
+        _translate = QtCore.QCoreApplication.translate
+        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
+        self.choose.setText(_translate("Dialog", "choose"))
 
