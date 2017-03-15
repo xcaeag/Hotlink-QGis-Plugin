@@ -178,11 +178,9 @@ class HotlinkMT(QgsMapTool):
             ctxt.appendScope(QgsExpressionContextUtils.mapSettingsScope(self.canvas.mapSettings()))
 
             # Add click_x and click_y to context
-            p = self.toLayerCoordinates(layer, self.pos())
-            myScope = QgsExpressionContextScope()
-            myScope.addVariable(QgsExpressionContextScope.StaticVariable("click_x", p.x(), True))
-            myScope.addVariable(QgsExpressionContextScope.StaticVariable("click_y", p.y(), True))
-            ctxt.appendScope(myScope)
+            p = self.toLayerCoordinates(layer, self.pos())            
+            QgsExpressionContextUtils.setGlobalVariable('click_x', p.x())
+            QgsExpressionContextUtils.setGlobalVariable('click_y', p.y())
 
             layer.actions().doAction(uid, feature, ctxt)
 
