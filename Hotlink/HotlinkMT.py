@@ -7,8 +7,11 @@ from PyQt5.QtCore import (Qt, QPoint)
 from PyQt5.QtWidgets import (QApplication)
 from PyQt5.QtGui import (QCursor)
 
-from qgis.core import *
-from qgis.gui import *
+from qgis.core import (QgsFeatureRequest, QgsExpressionContext, 
+                       QgsExpressionContextUtils, QgsProject, QgsExpression, 
+                       QgsRectangle, QgsMapLayer)
+    
+from qgis.gui import (QgsMapTool)
 
 from .Hotlink_chooser_dlg import ChooserDlg
 
@@ -39,16 +42,11 @@ class HotlinkMT(QgsMapTool):
     def canvasPressEvent(self, event):
         pass
 
-    def escape(self, t):
-        """HTML-escape the text in `t`."""
-        return t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("'", "&#39;").replace('"', "&quot;").replace(' ', "&nbsp;")
-
     def _layer_tooltip(self, layer, feat):
         try:
             df = layer.displayField()
             if df:
-                f = layer.fields().field(df)
-                return self.escape(layer.name()) + "&nbsp;-&nbsp;" + self.escape(str(feat.attribute(df)))
+                return layer.name() + " - " + str(feat.attribute(df))
             else:
                 context = QgsExpressionContext()
                 context.appendScope(QgsExpressionContextUtils.globalScope())
@@ -128,9 +126,6 @@ class HotlinkMT(QgsMapTool):
             self.findUnderlyingObjects(event, False)
 
     def canvasDoubleClickEvent(self, event):
-        pass
-
-    def canvasPressEvent(self, event):
         pass
 
     def keyPressEvent(self, event):

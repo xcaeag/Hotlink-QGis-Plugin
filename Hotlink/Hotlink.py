@@ -22,18 +22,16 @@ email                : xavier.culos@eau-adour-garonne.fr
 
 # Import the PyQt and QGIS libraries
 import os
-from PyQt5.QtCore import (Qt, QTranslator, QCoreApplication, QSettings, QFileInfo, QUrl)
-from PyQt5.QtWidgets import (QAction, QDialog)
-from PyQt5.QtGui import (QIcon, QCursor, QDesktopServices)
-from PyQt5 import QtWebKit
+from PyQt5.QtCore import (Qt, QTranslator, QCoreApplication, QSettings, QFileInfo)
+from PyQt5.QtWidgets import (QAction)
+from PyQt5.QtGui import (QIcon, QCursor)
 
-from qgis.core import *
+from qgis.core import QgsExpression
 
 # Initialize Qt resources from file resources.py
 from . import resources
 
 from .HotlinkMT import HotlinkMT
-from .ui_browser import Ui_browser
 
 holinkhdialog = None
 
@@ -102,12 +100,6 @@ class Hotlink:
         self.optionShowTips = False
         self.read()       
         
-        #self.clickX_function = ClickXFunction( self )
-        #QgsExpression.registerFunction( self.clickX_function )
-
-        #self.clickY_function = ClickYFunction( self )
-        #QgsExpression.registerFunction( self.clickY_function )
-
         locale = QSettings().value("locale/userLocale")
         myLocale = locale[0:2]
         
@@ -176,8 +168,7 @@ class Hotlink:
     
     def deactivate(self):
         """Plugin deactivation
-        """
-        
+        """        
         self.active = False
         
         self.canvas.mapToolSet.disconnect(self.deactivate)
@@ -185,29 +176,6 @@ class Hotlink:
         self.canvas.unsetMapTool(self.__mapTool)
         self.canvas.setMapTool(self.__oldMapTool)
         self.canvas.setToolTip("")
-
-        # what happend if another plugin has registered the same expression before ?
-        # QgsExpression.unregisterFunction( "$click_x" )
-        # QgsExpression.unregisterFunction( "$click_y" )
         
         del self.__mapTool
-
-    @staticmethod
-    def doOpenUrl(url):
-        holinkhdialog = QDialog()
-        holinkhdialog.setModal(True)
-        holinkhdialog.ui = Ui_browser()
-        holinkhdialog.ui.setupUi(holinkhdialog)
-        holinkhdialog.ui.helpContent.setUrl(QUrl(url))
-        holinkhdialog.ui.helpContent.page().setLinkDelegationPolicy(QtWebKit.QWebPage.DelegateExternalLinks) # Handle link clicks by yourself
-        holinkhdialog.ui.helpContent.linkClicked.connect(doLink)
-        holinkhdialog.ui.helpContent.page().currentFrame().setScrollBarPolicy(Qt.Vertical, Qt.ScrollBarAlwaysOn)
-        holinkhdialog.show()
-        result = holinkhdialog.exec_()
-        del holinkhdialog
         
-def doLink( url ):
-    if url.host() == "" :
-        holinkhdialog.ui.helpContent.page().currentFrame().load(url)
-    else:
-        QDesktopServices.openUrl( url )
