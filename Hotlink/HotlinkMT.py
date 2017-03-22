@@ -174,8 +174,8 @@ class HotlinkMT(QgsMapTool):
 
             # Add click_x and click_y to context
             p = self.toLayerCoordinates(layer, self.pos())            
-            QgsExpressionContextUtils.setGlobalVariable('click_x', p.x())
-            QgsExpressionContextUtils.setGlobalVariable('click_y', p.y())
+            QgsExpressionContextUtils.setProjectVariable(QgsProject.instance(), 'click_x', p.x())
+            QgsExpressionContextUtils.setProjectVariable(QgsProject.instance(), 'click_y', p.y())
 
             layer.actions().doAction(uid, feature, ctxt)
 
