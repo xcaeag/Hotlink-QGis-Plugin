@@ -27,9 +27,9 @@ changelog=
 
 tags=hotlink action trigger
 
-homepage=http://hub.qgis.org/projects/hotlink
-tracker=http://hub.qgis.org/projects/hotlink/issues
-repository=http://plugins.qgis.org/plugins/plugins.xml
+homepage=https://github.com/xcaeag/Hotlink-QGis-Plugin
+tracker=https://github.com/xcaeag/Hotlink-QGis-Plugin/issues
+repository=https://github.com/xcaeag/Hotlink-QGis-Plugin
 icon=hotlink.png
 experimental=False
 
