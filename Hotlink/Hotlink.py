@@ -28,6 +28,9 @@ from PyQt5.QtGui import (QIcon, QCursor)
 
 from qgis.core import QgsExpression
 
+# Initialize Qt resources from file resources.py
+from . import resources
+
 from .HotlinkMT import HotlinkMT
 
 holinkhdialog = None
