@@ -26,7 +26,7 @@ from PyQt5.QtCore import (Qt, QTranslator, QCoreApplication, QSettings, QFileInf
 from PyQt5.QtWidgets import (QAction)
 from PyQt5.QtGui import (QIcon, QCursor)
 
-from qgis.core import QgsExpression
+from qgis.core import QgsExpressionFunction
 
 # Initialize Qt resources from file resources.py
 from . import resources
@@ -36,17 +36,12 @@ from .HotlinkMT import HotlinkMT
 holinkhdialog = None
 
 
-class ClickXFunction(QgsExpression.Function):
+class ClickXFunction(QgsExpressionFunction):
     """
         Register click_x variable
-
-        Usage exemple :
-            QgsExpression.functionIndex("$click_x")
-            e = QgsExpression("$click_x")
-            e.evaluate()
     """
     def __init__(self, hotlink):
-        QgsExpression.Function.__init__(self, "$hotlink_x", 0, "Python", self.tr("""<h1>$hotlink_x</h1>
+        QgsExpressionFunction.__init__(self, "$hotlink_x", 0, "Python", self.tr("""<h1>$hotlink_x</h1>
 Variable filled by hotlink plugin, when a click occured.<br/>
 <h2>Return value</h2>
 The X coordinate in current SRID
@@ -60,18 +55,13 @@ The X coordinate in current SRID
         return self.hotlink.clickX()
 
 
-class ClickYFunction(QgsExpression.Function):
+class ClickYFunction(QgsExpressionFunction):
     """
         Register click_y variable
-
-        Usage exemple :
-            QgsExpression.functionIndex("$click_y")
-            e = QgsExpression("$click_y")
-            e.evaluate()
     """
 
     def __init__(self, hotlink):
-        QgsExpression.Function.__init__(self, "$hotlink_y", 0, "Python", self.tr("""<h1>$hotlink_y</h1>
+        QgsExpressionFunction.__init__(self, "$hotlink_y", 0, "Python", self.tr("""<h1>$hotlink_y</h1>
 Variable filled by hotlink plugin, when a click occured.<br/>
 <h2>Return value</h2>
 The Y coordinate in current SRID
