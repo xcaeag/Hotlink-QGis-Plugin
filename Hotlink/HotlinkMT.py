@@ -46,7 +46,7 @@ class HotlinkMT(QgsMapTool):
         try:
             df = layer.displayField()
             if df:
-                return layer.name() + " - " + str(feat.attribute(df))
+                return str(feat.attribute(df))
             else:
                 context = QgsExpressionContext()
                 context.appendScope(QgsExpressionContextUtils.globalScope())
@@ -92,7 +92,7 @@ class HotlinkMT(QgsMapTool):
                         tip = self._layer_tooltip(layer, feat)
                         
                         try:
-                            actionName = '{0} ({1})'.format(action.name(), tip)
+                            actionName = '{0} {1}'.format(action.shortTitle() or action.name(), tip)
                         except:
                             actionName = action.name()
 
