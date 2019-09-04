@@ -7,13 +7,14 @@ from PyQt5.QtCore import (Qt, QPoint)
 from PyQt5.QtWidgets import (QApplication)
 from PyQt5.QtGui import (QCursor)
 
-from qgis.core import (QgsFeatureRequest, QgsExpressionContext, 
-                       QgsExpressionContextUtils, QgsProject, QgsExpression, 
+from qgis.core import (QgsFeatureRequest, QgsExpressionContext,
+                       QgsExpressionContextUtils, QgsProject, QgsExpression,
                        QgsRectangle, QgsMapLayer)
-    
+
 from qgis.gui import (QgsMapTool)
 
 from .Hotlink_chooser_dlg import ChooserDlg
+
 
 class HotlinkMT(QgsMapTool):
     """Hotlink tool. It is this class that manages the mouse capture...
@@ -38,7 +39,7 @@ class HotlinkMT(QgsMapTool):
             return self.toMapCoordinates(self.__pos)
         except:
             return None
-        
+
     def canvasPressEvent(self, event):
         pass
 
@@ -52,9 +53,9 @@ class HotlinkMT(QgsMapTool):
                 context.appendScope(QgsExpressionContextUtils.globalScope())
                 context.appendScope(QgsExpressionContextUtils.projectScope(QgsProject.instance()))
                 context.appendScope(QgsExpressionContextUtils.layerScope(layer))
-                context.appendScope(QgsExpressionContextUtils.mapSettingsScope( self.canvas.mapSettings() ) )
-                context.setFeature( feat )
-                
+                context.appendScope(QgsExpressionContextUtils.mapSettingsScope(self.canvas.mapSettings()))
+                context.setFeature(feat)
+
                 x = QgsExpression(layer.displayExpression())
                 x.prepare(context)
                 return x.evaluate(context).replace('\n', "<br/>")
@@ -81,7 +82,7 @@ class HotlinkMT(QgsMapTool):
 
                 # build a list of tuples Name / feature / layer / id for construction of the tool tip, the interface of choice
                 if saveFeatures:
-                    self.featuresFound = [ {"actionName":QApplication.translate("aeag_search", "Choose...", None), "feature":None, "layer":None, "idxAction":None} ]
+                    self.featuresFound = [{"actionName": QApplication.translate("aeag_search", "Choose...", None), "feature": None, "layer": None, "idxAction": None}]
 
                 tooltip = []
 
@@ -90,14 +91,14 @@ class HotlinkMT(QgsMapTool):
                     layer = featData["layer"]
                     for action in layer.actions().actions():
                         tip = self._layer_tooltip(layer, feat)
-                        
+
                         try:
                             actionName = '{0} {1}'.format(action.shortTitle() or action.name(), tip)
                         except:
                             actionName = action.name()
 
                         if saveFeatures:
-                            self.featuresFound.append( {"actionName":"    "+actionName, "feature":feat, "layer":layer, "idxAction":action.id()} )
+                            self.featuresFound.append({"actionName": ""+actionName, "feature": feat, "layer": layer, "idxAction": action.id()})
 
                         try:
                             tooltip.index(tip)
@@ -119,7 +120,7 @@ class HotlinkMT(QgsMapTool):
         except:
             pass
 
-    def canvasMoveEvent(self,event):
+    def canvasMoveEvent(self, event):
         """On mouse movement, we identify the underlying objects
         """
         if (self.plugin.optionShowTips):
@@ -153,7 +154,7 @@ class HotlinkMT(QgsMapTool):
 
         else:
             # to choose the action to trigger
-            canvasPos = self.canvas.mapToGlobal(QPoint(0,0))
+            canvasPos = self.canvas.mapToGlobal(QPoint(0, 0))
             self.chooserDlg = ChooserDlg(self, self.featuresFound, canvasPos.x() + self.__pos.x(), canvasPos.y() + self.__pos.y())
             self.chooserDlg.go()
 
@@ -166,14 +167,14 @@ class HotlinkMT(QgsMapTool):
     def doAction(self, layer, uid, feature):
         if layer.actions().action(uid).name() == 'openFeatureForm':
             self.plugin.iface.openFeatureForm(layer, feature)
-        else :
+        else:
             ctxt = QgsExpressionContext()
             ctxt.appendScope(QgsExpressionContextUtils.globalScope())
             ctxt.appendScope(QgsExpressionContextUtils.projectScope(QgsProject.instance()))
             ctxt.appendScope(QgsExpressionContextUtils.mapSettingsScope(self.canvas.mapSettings()))
 
             # Add click_x and click_y to context
-            p = self.toLayerCoordinates(layer, self.pos())            
+            p = self.toLayerCoordinates(layer, self.pos())
             QgsExpressionContextUtils.setProjectVariable(QgsProject.instance(), 'click_x', p.x())
             QgsExpressionContextUtils.setProjectVariable(QgsProject.instance(), 'click_y', p.y())
 
@@ -203,6 +204,6 @@ class HotlinkMT(QgsMapTool):
             if layer.type() == QgsMapLayer.VectorLayer and len(layer.actions().actions()) > 0:
                 self.request.setFilterRect(self.toLayerCoordinates(layer, rect))
                 for feature in layer.getFeatures(self.request):
-                    features.append({"layer":layer, "feature":feature})
+                    features.append({"layer": layer, "feature": feature})
 
         return features
