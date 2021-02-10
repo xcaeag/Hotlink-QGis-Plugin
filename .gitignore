@@ -1,3 +1,4 @@
 *.pyc
-dev_precommit_black.log
+*.sh
+*.log
 .vscode/
