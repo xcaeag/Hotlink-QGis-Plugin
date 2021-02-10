@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 # Form implementation generated from reading ui file
 #  'W:\GitHub\Hotlink\Hotlink\Hotlink_chooser_dlg.ui'
 #

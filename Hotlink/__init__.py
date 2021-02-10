@@ -1,12 +1,10 @@
-# -*- coding: utf-8 -*-
-
 """
 /***************************************************************************
 Name			 	 : Hotlink plugin
 Description          : Triggers actions on single click
-Date                 : 24/Jun/11 
+Date                 : 24/Jun/11
 copyright            : (C) 2011 by AEAG
-email                : xavier.culos@eau-adour-garonne.fr 
+email                : xavier.culos@eau-adour-garonne.fr
  ***************************************************************************/
 
 /***************************************************************************
@@ -19,8 +17,10 @@ email                : xavier.culos@eau-adour-garonne.fr
  ***************************************************************************/
  This script initializes the plugin, making it known to QGIS.
 """
-def classFactory(iface): 
-  # load Hotlink class from file Hotlink
-  from .Hotlink import Hotlink 
-  return Hotlink(iface)
 
+
+def classFactory(iface):
+    # load Hotlink class from file Hotlink
+    from .Hotlink import Hotlink
+
+    return Hotlink(iface)

@@ -3,8 +3,7 @@ from PyQt5.QtWidgets import QDialog
 
 
 class ChooserDlg(QDialog, Ui_Dialog):
-    """GUI allows the user to choose the action to be triggered (if any)
-    """
+    """GUI allows the user to choose the action to be triggered (if any)"""
 
     def __init__(self, tool, featuresFound, x, y):
         """GUI Initialization
@@ -28,15 +27,13 @@ class ChooserDlg(QDialog, Ui_Dialog):
         self.comboBox.currentIndexChanged.connect(self.onChoose)
 
     def populateActions(self):
-        """Populate
-        """
+        """Populate"""
         self.comboBox.clear()
         for tab in self.featuresFound:
             self.comboBox.addItem(tab["actionName"], tab)
 
     def onChoose(self):
-        """Triggered by the choice of an action from the list
-        """
+        """Triggered by the choice of an action from the list"""
         self.tool.onChoose(self.comboBox.currentIndex())
 
     def go(self):
