@@ -11,6 +11,7 @@ from hotlink.__about__ import DIR_PLUGIN_ROOT, __title__, __version__
 
 Dialog, _ = uic.loadUiType(str(DIR_PLUGIN_ROOT / "ui/Hotlink_chooser_dlg.ui"))
 
+
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")

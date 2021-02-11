@@ -114,8 +114,8 @@ class Hotlink:
         locale = QSettings().value("locale/userLocale")
         myLocale = locale[0:2]
 
-        localePath = (
-            QFileInfo(str(DIR_PLUGIN_ROOT / "i18n/Hotlink_{}.qm").format(myLocale))
+        localePath = QFileInfo(
+            str(DIR_PLUGIN_ROOT / "i18n/Hotlink_{}.qm").format(myLocale)
         )
 
         if QFileInfo(localePath).exists():
@@ -149,7 +149,9 @@ class Hotlink:
     def initGui(self):
         self.toolBar = self.iface.pluginToolBar()
         self.act_hotlink = QAction(
-            QIcon(str(DIR_PLUGIN_ROOT / "resources/hotlink.png")), __title__", self.iface.mainWindow()
+            QIcon(str(DIR_PLUGIN_ROOT / "resources/hotlink.png")),
+            __title__,
+            self.iface.mainWindow(),
         )
         self.act_hotlink.setCheckable(True)
         self.toolBar.addAction(self.act_hotlink)
