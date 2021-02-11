@@ -3,27 +3,27 @@ name=Hotlink
 qgisMinimumVersion=3.0
 qgisMaximumVersion=3.98
 description=Triggers actions on single click to facilitate the use of actions attached to vector layers
-about=When the plugin is activated (button in the toolbar), 
-    the objects "carriers" of actions become "clickable". 
-    
+about=When the plugin is activated (button in the toolbar),
+    the objects "carriers" of actions become "clickable".
+
 version=0.8.2
 changelog=
     0.8.2 : some API Changes (QgsExpression.Function removed)
     0.8.1 : Code cleaning
-    0.8.0 : Migration for QGIS3 
+    0.8.0 : Migration for QGIS3
     0.7.9 : filling @click_x and @click_y variables
     0.7.8 : fix bug with integer fields (#7)
-    0.7.7 : Better tooltip build. Still impose a HTML version for better interpretation by QT. 
-    By default, tips are not displayed because of conflict with default qgis map tip. 
+    0.7.7 : Better tooltip build. Still impose a HTML version for better interpretation by QT.
+    By default, tips are not displayed because of conflict with default qgis map tip.
     0.7.6 : Remove duplicate lines in tooltip, popup
     0.7.5 : Support for QGIS expression for hotlinks (Peter Petrik)
     0.7.4 : better use of QgsFeatureRequest
     0.7.3 : some code cleaning
     0.7.2 : bug fix : conflict between two lists and crash
     0.7.1 : fix incompatibility with html tooltip
-    0.7 : QGis 2.2 compatible 
+    0.7 : QGis 2.2 compatible
     0.6 : bug fix - numeric display fields failed.
-    0.5 : QGis 2.0 compatible 
+    0.5 : QGis 2.0 compatible
     0.4 : 1.9 compatible
 
 tags=hotlink action trigger
@@ -31,7 +31,7 @@ tags=hotlink action trigger
 homepage=https://github.com/xcaeag/Hotlink-QGis-Plugin
 tracker=https://github.com/xcaeag/Hotlink-QGis-Plugin/issues
 repository=https://github.com/xcaeag/Hotlink-QGis-Plugin
-icon=hotlink.png
+icon=resources/hotlink.png
 experimental=False
 
 deprecated=False

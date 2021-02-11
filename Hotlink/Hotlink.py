@@ -20,17 +20,16 @@ email                : xavier.culos@eau-adour-garonne.fr
 
 """
 
-# Import the PyQt and QGIS libraries
 import os
-from PyQt5.QtCore import Qt, QTranslator, QCoreApplication, QSettings, QFileInfo
-from PyQt5.QtWidgets import QAction
-from PyQt5.QtGui import QIcon, QCursor
 
+# Import the PyQt and QGIS libraries
+from qgis.PyQt.QtCore import Qt, QTranslator, QCoreApplication, QSettings, QFileInfo
+from qgis.PyQt.QtWidgets import QAction
+from qgis.PyQt.QtGui import QIcon, QCursor
 from qgis.core import QgsExpressionFunction
 
-# Initialize Qt resources from file resources.py
-from . import resources
-
+# project
+from .__about__ import DIR_PLUGIN_ROOT, __title__, __title_clean__
 from .HotlinkMT import HotlinkMT
 
 holinkhdialog = None
@@ -116,10 +115,7 @@ class Hotlink:
         myLocale = locale[0:2]
 
         localePath = (
-            QFileInfo(os.path.realpath(__file__)).path()
-            + "/i18n/Hotlink_"
-            + myLocale
-            + ".qm"
+            QFileInfo(str(DIR_PLUGIN_ROOT / "i18n/Hotlink_{}.qm").format(myLocale))
         )
 
         if QFileInfo(localePath).exists():
@@ -153,7 +149,7 @@ class Hotlink:
     def initGui(self):
         self.toolBar = self.iface.pluginToolBar()
         self.act_hotlink = QAction(
-            QIcon(":plugins/Hotlink/hotlink.png"), "Hotlink", self.iface.mainWindow()
+            QIcon(str(DIR_PLUGIN_ROOT / "resources/hotlink.png")), __title__", self.iface.mainWindow()
         )
         self.act_hotlink.setCheckable(True)
         self.toolBar.addAction(self.act_hotlink)

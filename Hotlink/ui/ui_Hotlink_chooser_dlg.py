@@ -1,12 +1,15 @@
 # Form implementation generated from reading ui file
-#  'W:\GitHub\Hotlink\Hotlink\Hotlink_chooser_dlg.ui'
 #
 # Created by: PyQt5 UI code generator 5.6
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt5 import QtCore, QtWidgets
+from qgis.PyQt import uic
+from qgis.PyQt import QtCore, QtWidgets
 
+from hotlink.__about__ import DIR_PLUGIN_ROOT, __title__, __version__
+
+Dialog, _ = uic.loadUiType(str(DIR_PLUGIN_ROOT / "ui/Hotlink_chooser_dlg.ui"))
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):

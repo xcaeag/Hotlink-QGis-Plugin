@@ -17,7 +17,7 @@ from qgis.core import (
 
 from qgis.gui import QgsMapTool
 
-from .Hotlink_chooser_dlg import ChooserDlg
+from .ui.Hotlink_chooser_dlg import ChooserDlg
 
 
 class HotlinkMT(QgsMapTool):
