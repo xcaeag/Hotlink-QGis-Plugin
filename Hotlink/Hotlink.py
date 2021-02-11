@@ -114,10 +114,7 @@ class Hotlink:
         locale = QSettings().value("locale/userLocale")
         myLocale = locale[0:2]
 
-        localePath = QFileInfo(
-            str(DIR_PLUGIN_ROOT / "i18n/Hotlink_{}.qm").format(myLocale)
-        )
-
+        localePath = str(DIR_PLUGIN_ROOT / "i18n/Hotlink_{}.qm").format(myLocale)
         if QFileInfo(localePath).exists():
             self.translator = QTranslator()
             self.translator.load(localePath)

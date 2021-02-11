@@ -8,7 +8,7 @@ about=When the plugin is activated (button in the toolbar),
 
 version=0.8.3
 changelog=
-    0.8.3 : Code reorganization
+    0.8.3 : Code reorganization, WFS layer support
     0.8.2 : some API Changes (QgsExpression.Function removed)
     0.8.1 : Code cleaning
     0.8.0 : Migration for QGIS3

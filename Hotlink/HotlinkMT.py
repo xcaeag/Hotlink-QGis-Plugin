@@ -243,8 +243,11 @@ class HotlinkMT(QgsMapTool):
                 layer.type() == QgsMapLayer.VectorLayer
                 and len(layer.actions().actions()) > 0
             ):
-                self.request.setFilterRect(self.toLayerCoordinates(layer, rect))
-                for feature in layer.getFeatures(self.request):
+                rect = self.toLayerCoordinates(layer, rect)
+                self.request.setFilterRect(rect)
+                for feature in layer.getFeatures(
+                    rect if (layer.dataProvider().name() == "WFS") else self.request
+                ):
                     features.append({"layer": layer, "feature": feature})
 
         return features
