@@ -1,7 +1,7 @@
 name: Linter 🐍
 
 env:
-  PROJECT_FOLDER: "hotlink"
+  PROJECT_FOLDER: "Hotlink"
   PYTHON_VERSION: 3.7
 
 on:
