@@ -1,9 +1,9 @@
 """@package HotlinkMT
 """
 
-from PyQt5.QtCore import Qt, QPoint
-from PyQt5.QtWidgets import QApplication
-from PyQt5.QtGui import QCursor
+from qgis.PyQt.QtCore import Qt, QPoint
+from qgis.PyQt.QtWidgets import QApplication
+from qgis.PyQt.QtGui import QCursor
 
 from qgis.core import (
     QgsFeatureRequest,

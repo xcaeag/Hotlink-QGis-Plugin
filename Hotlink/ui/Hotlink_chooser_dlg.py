@@ -1,5 +1,5 @@
 from .ui_Hotlink_chooser_dlg import Ui_Dialog
-from PyQt5.QtWidgets import QDialog
+from qgis.PyQt.QtWidgets import QDialog
 
 
 class ChooserDlg(QDialog, Ui_Dialog):
