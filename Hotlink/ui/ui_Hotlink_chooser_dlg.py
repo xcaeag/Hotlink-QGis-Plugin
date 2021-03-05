@@ -7,7 +7,7 @@
 from qgis.PyQt import uic
 from qgis.PyQt import QtCore, QtWidgets
 
-from hotlink.__about__ import DIR_PLUGIN_ROOT, __title__, __version__
+from Hotlink.__about__ import DIR_PLUGIN_ROOT, __title__, __version__
 
 Dialog, _ = uic.loadUiType(str(DIR_PLUGIN_ROOT / "ui/Hotlink_chooser_dlg.ui"))
 

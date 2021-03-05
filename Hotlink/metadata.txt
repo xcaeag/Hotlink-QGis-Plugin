@@ -6,8 +6,9 @@ description=Triggers actions on single click to facilitate the use of actions at
 about=When the plugin is activated (button in the toolbar),
     the objects "carriers" of actions become "clickable".
 
-version=0.8.3
+version=0.8.4
 changelog=
+    0.8.4 : fix #9
     0.8.3 : Code reorganization, WFS layer support
     0.8.2 : some API Changes (QgsExpression.Function removed)
     0.8.1 : Code cleaning
