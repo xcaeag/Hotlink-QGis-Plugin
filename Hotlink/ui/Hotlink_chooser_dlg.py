@@ -32,6 +32,7 @@ class ChooserDlg(QDialog, Ui_Dialog):
         self.comboBox.clear()
         for tab in self.featuresFound:
             self.comboBox.addItem(QIcon(tab["icon"]), tab["actionName"], tab)
+        self.comboBox.setCurrentIndex(-1)
 
     def onChoose(self):
         """Triggered by the choice of an action from the list"""
