@@ -93,17 +93,7 @@ class HotlinkMT(QgsMapTool):
 
                 # build a list of tuples Name / feature / layer / id for construction of the tool tip, the interface of choice
                 if saveFeatures:
-                    self.featuresFound = [
-                        {
-                            "actionName": QApplication.translate(
-                                "aeag_search", "Choose...", None
-                            ),
-                            "feature": None,
-                            "layer": None,
-                            "idxAction": None,
-                            "icon": None
-                        }
-                    ]
+                    self.featuresFound = []
 
                 tooltip = []
 
@@ -174,10 +164,10 @@ class HotlinkMT(QgsMapTool):
         self.findUnderlyingObjects(event, True)
 
         # if a single action (2 lines in the list)
-        if len(self.featuresFound) == 2:
-            layer = self.featuresFound[1]["layer"]
-            id = self.featuresFound[1]["idxAction"]
-            feature = self.featuresFound[1]["feature"]
+        if len(self.featuresFound) == 1:
+            layer = self.featuresFound[0]["layer"]
+            id = self.featuresFound[0]["idxAction"]
+            feature = self.featuresFound[0]["feature"]
 
             self.doAction(layer, id, feature)
 
