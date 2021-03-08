@@ -1,5 +1,6 @@
 from .ui_Hotlink_chooser_dlg import Ui_Dialog
 from qgis.PyQt.QtWidgets import QDialog
+from qgis.PyQt.QtGui import QIcon
 
 
 class ChooserDlg(QDialog, Ui_Dialog):
@@ -30,7 +31,7 @@ class ChooserDlg(QDialog, Ui_Dialog):
         """Populate"""
         self.comboBox.clear()
         for tab in self.featuresFound:
-            self.comboBox.addItem(tab["actionName"], tab)
+            self.comboBox.addItem(QIcon(tab["icon"]), tab["actionName"], tab)
 
     def onChoose(self):
         """Triggered by the choice of an action from the list"""

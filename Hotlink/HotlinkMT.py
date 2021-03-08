@@ -101,6 +101,7 @@ class HotlinkMT(QgsMapTool):
                             "feature": None,
                             "layer": None,
                             "idxAction": None,
+                            "icon": None
                         }
                     ]
 
@@ -126,6 +127,7 @@ class HotlinkMT(QgsMapTool):
                                     "feature": feat,
                                     "layer": layer,
                                     "idxAction": action.id(),
+                                    "icon": action.iconPath()
                                 }
                             )
 
