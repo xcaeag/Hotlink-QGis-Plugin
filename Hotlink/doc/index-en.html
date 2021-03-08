@@ -1,6 +1,6 @@
 <html>
 <body>
-    <h1>Triggers actions on single click</h1>
+    <h1>Triggers <a href="https://docs.qgis.org/3.16/en/docs/training_manual/create_vector_data/actions.html"> actions</a> on single click</h1>
 
 <h2>Purpose</h2>
 To facilitate the use of actions attached to vector layers
@@ -10,8 +10,12 @@ To facilitate the use of actions attached to vector layers
 The associated action is triggered immediately, a list is given in the case of multiple actions.</p>
 
 <h2>Action exemple</h2>
-<p>Example of a action launching a browser on a specific page to the selected object :</p>
-<span>os.system("start http://a.domain.name/[% \"id\" %]")</span>
+<p>Example of a action launching QGis web page browser (see QGis doc : https://docs.qgis.org/3.16/en/docs/training_manual/create_vector_data/actions.html) on a specific page to the selected object :</p>
+<span>from qgis.PyQt.QtCore import QUrl; 
+    from qgis.PyQt.QtWebKitWidgets import QWebView; 
+    myWV = QWebView(None); myWV.load(QUrl('https://my.url/[%an_attribute%]')); myWV.show()</span>
+
+<img src="./combo.png">
 
 </body>
 </html>

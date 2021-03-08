@@ -1,7 +1,7 @@
-Hotlink-QGis-Plugin
+Hotlink-QGis-Plugin 
 ===================
 
-Triggers actions on single click
+Triggers [actions](https://docs.qgis.org/3.16/en/docs/training_manual/create_vector_data/actions.html) on single click
 
 Purpose: To facilitate the use of actions attached to vector layers.
 
@@ -13,6 +13,8 @@ Attention : Since v0.7.7, Tips are not displayed because of conflict with defaul
     [Hotlink]
     optionShowTips=true
 
-Python example of an action for opening a URL : os.system("start http://a.domain.name/[% \"id\" %]")
-
 Release on QGIS Python Plugins Repository : http://plugins.qgis.org/plugins/Hotlink/
+
+Exemple :
+
+![Exemple](./Hotlink/doc/combo.png)
