@@ -81,8 +81,6 @@ class HotlinkMT(QgsMapTool):
             return
 
         try:
-            self.__pos = event.pos()
-
             # find objects
             features = self._getFeatures()
 
@@ -161,6 +159,17 @@ class HotlinkMT(QgsMapTool):
         if event.button() not in (Qt.LeftButton, Qt.RightButton):
             return
 
+        self.__pos = event.pos()
+
+        # Add click_x and click_y to context
+        if self.pos():
+            QgsExpressionContextUtils.setProjectVariable(
+                QgsProject.instance(), "click_x", self.pos().x()
+            )
+            QgsExpressionContextUtils.setProjectVariable(
+                QgsProject.instance(), "click_y", self.pos().y()
+            )
+
         self.findUnderlyingObjects(event, True)
 
         # if a single action (2 lines in the list)
@@ -199,15 +208,6 @@ class HotlinkMT(QgsMapTool):
             )
             ctxt.appendScope(
                 QgsExpressionContextUtils.mapSettingsScope(self.canvas.mapSettings())
-            )
-
-            # Add click_x and click_y to context
-            p = self.toLayerCoordinates(layer, self.pos())
-            QgsExpressionContextUtils.setProjectVariable(
-                QgsProject.instance(), "click_x", p.x()
-            )
-            QgsExpressionContextUtils.setProjectVariable(
-                QgsProject.instance(), "click_y", p.y()
             )
 
             layer.actions().doAction(uid, feature, ctxt)
