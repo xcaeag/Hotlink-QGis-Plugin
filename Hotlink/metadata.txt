@@ -8,7 +8,7 @@ about=When the plugin is activated (button in the toolbar),
 
 version=0.8.5
 changelog=
-    0.8.5 : Add action icon if exists
+    0.8.5 : Add action icon if exists, fix @click_x & @click_y variables
     0.8.4 : fix #9
     0.8.3 : Code reorganization, WFS layer support
     0.8.2 : some API Changes (QgsExpression.Function removed)
