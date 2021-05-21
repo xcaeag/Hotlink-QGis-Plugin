@@ -11,11 +11,16 @@ The associated action is triggered immediately, a list is given in the case of m
 
 <h2>Action exemple</h2>
 <p>Example of a action launching QGis web page browser (see QGis doc : https://docs.qgis.org/3.16/en/docs/training_manual/create_vector_data/actions.html) on a specific page to the selected object :</p>
-<span>from qgis.PyQt.QtCore import QUrl; 
-    from qgis.PyQt.QtWebKitWidgets import QWebView; 
-    myWV = QWebView(None); myWV.load(QUrl('https://my.url/[%an_attribute%]')); myWV.show()</span>
+<pre>from qgis.PyQt.QtCore import QUrl; from qgis.PyQt.QtWebKitWidgets import QWebView; myWV = QWebView(None); myWV.load(QUrl('https://my.url/[%an_attribute%]')); myWV.show()</pre>
 
+<br/>
 <img src="./combo.png">
+
+<p>Two variables are available: @click_x and @click_y, last cursor position. These values can thus be passed as a parameter for a URL opening.</p>
+<p>Example of action : <pre>http://my.url?x=[% @click_x %]</pre></p>
+
+<p>Or a little more complicated, with coordinates transformation :</p> 
+<pre>https://www.openstreetmap.org/#map=14/[% y(transform(make_point(@click_x,@click_y), @map_crs, 'EPSG:4326')) %]/[% x(transform(make_point(@click_x,@click_y), @map_crs, 'EPSG:4326')) %]</pre>
 
 </body>
 </html>
