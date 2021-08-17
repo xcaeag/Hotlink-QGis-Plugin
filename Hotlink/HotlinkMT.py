@@ -12,7 +12,7 @@ from qgis.core import (
     QgsProject,
     QgsExpression,
     QgsRectangle,
-    QgsMapLayer,
+    QgsMapLayer
 )
 
 from qgis.gui import QgsMapTool
@@ -229,16 +229,18 @@ class HotlinkMT(QgsMapTool):
         rect.setXMaximum(point.x() + searchRadius)
         rect.setYMinimum(point.y() - searchRadius)
         rect.setYMaximum(point.y() + searchRadius)
+
         for layer in self.canvas.layers():
             # treat only vector layers having actions
             if (
                 layer.type() == QgsMapLayer.VectorLayer
                 and len(layer.actions().actions()) > 0
             ):
-                rect = self.toLayerCoordinates(layer, rect)
-                self.request.setFilterRect(rect)
+                layerRect = self.toLayerCoordinates(layer, rect)
+                self.request.setFilterRect(layerRect)
+
                 for feature in layer.getFeatures(
-                    rect if (layer.dataProvider().name() == "WFS") else self.request
+                    layerRect if (layer.dataProvider().name() == "WFS") else self.request
                 ):
                     features.append({"layer": layer, "feature": feature})
 
