@@ -2,7 +2,6 @@
 """
 
 from qgis.PyQt.QtCore import Qt, QPoint
-from qgis.PyQt.QtWidgets import QApplication
 from qgis.PyQt.QtGui import QCursor
 
 from qgis.core import (
@@ -143,12 +142,6 @@ class HotlinkMT(QgsMapTool):
         """On mouse movement, we identify the underlying objects"""
         if self.plugin.optionShowTips:
             self.findUnderlyingObjects(event, False)
-
-    def canvasDoubleClickEvent(self, event):
-        pass
-
-    def keyPressEvent(self, event):
-        pass
 
     def canvasReleaseEvent(self, event):
         """On click, do action"""
