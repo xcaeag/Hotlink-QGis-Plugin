@@ -36,7 +36,7 @@ class HotlinkMT(QgsMapTool):
         self.request = QgsFeatureRequest()
         self.request.setFlags(
             QgsFeatureRequest.Flags(
-                QgsFeatureRequest.NoGeometry | QgsFeatureRequest.ExactIntersect
+                QgsFeatureRequest.Flag.NoGeometry | QgsFeatureRequest.Flag.ExactIntersect
             )
         )
 
@@ -87,7 +87,7 @@ class HotlinkMT(QgsMapTool):
             # if there are
             if features:
                 # adjust the cursor
-                self.canvas.setCursor(QCursor(Qt.WhatsThisCursor))
+                self.canvas.setCursor(QCursor(Qt.CursorShape.WhatsThisCursor))
 
                 # build a list of tuples Name / feature / layer / id for construction of the tool tip, the interface of choice
                 if saveFeatures:
@@ -133,7 +133,7 @@ class HotlinkMT(QgsMapTool):
                 if saveFeatures:
                     self.featuresFound = []
 
-                self.canvas.setCursor(QCursor(Qt.ArrowCursor))
+                self.canvas.setCursor(QCursor(Qt.CursorShape.ArrowCursor))
                 if self.plugin.optionShowTips:
                     self.canvas.setToolTip("")
         except:
@@ -156,7 +156,7 @@ class HotlinkMT(QgsMapTool):
             return
 
         # left click only
-        if event.button() not in (Qt.LeftButton, Qt.RightButton):
+        if event.button() not in (Qt.MouseButton.LeftButton, Qt.MouseButton.RightButton):
             return
 
         self.__pos = event.pos()
@@ -233,7 +233,7 @@ class HotlinkMT(QgsMapTool):
         for layer in self.canvas.layers():
             # treat only vector layers having actions
             if (
-                layer.type() == QgsMapLayer.VectorLayer
+                layer.type() == QgsMapLayer.LayerType.VectorLayer
                 and len(layer.actions().actions()) > 0
             ):
                 layerRect = self.toLayerCoordinates(layer, rect)

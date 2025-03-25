@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 """
 /***************************************************************************
@@ -173,8 +173,8 @@ class Hotlink:
         self.canvas.unsetMapTool(self.canvas.mapTool())
         self.__mapTool = HotlinkMT(self)
         self.canvas.setMapTool(self.__mapTool)
-        self.canvas.setCursor(QCursor(Qt.ArrowCursor))
-        self.canvas.setFocus(Qt.OtherFocusReason)
+        self.canvas.setCursor(QCursor(Qt.CursorShape.ArrowCursor))
+        self.canvas.setFocus(Qt.FocusReason.OtherFocusReason)
 
         self.canvas.mapToolSet.connect(self.deactivate)
 
