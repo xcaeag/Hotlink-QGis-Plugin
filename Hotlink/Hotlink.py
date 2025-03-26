@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 """
 /***************************************************************************
@@ -20,13 +20,18 @@ email                : xavier.culos@eau-adour-garonne.fr
 
 """
 
-import os
-
 # Import the PyQt and QGIS libraries
-from qgis.PyQt.QtCore import Qt, QTranslator, QCoreApplication, QSettings, QFileInfo
+from qgis.PyQt.QtCore import (
+    Qt,
+    QTranslator,
+    QCoreApplication,
+    QSettings,
+    QFileInfo,
+    QLocale,
+)
 from qgis.PyQt.QtWidgets import QAction
 from qgis.PyQt.QtGui import QIcon, QCursor
-from qgis.core import QgsExpressionFunction
+from qgis.core import QgsExpressionFunction, QgsSettings
 
 # project
 from .__about__ import DIR_PLUGIN_ROOT, __title__, __title_clean__
@@ -111,7 +116,7 @@ class Hotlink:
         self.optionShowTips = False
         self.read()
 
-        locale = QSettings().value("locale/userLocale")
+        locale = QgsSettings().value("locale/userLocale", QLocale().name())
         myLocale = locale[0:2]
 
         localePath = str(DIR_PLUGIN_ROOT / "i18n/Hotlink_{}.qm").format(myLocale)
@@ -173,8 +178,8 @@ class Hotlink:
         self.canvas.unsetMapTool(self.canvas.mapTool())
         self.__mapTool = HotlinkMT(self)
         self.canvas.setMapTool(self.__mapTool)
-        self.canvas.setCursor(QCursor(Qt.ArrowCursor))
-        self.canvas.setFocus(Qt.OtherFocusReason)
+        self.canvas.setCursor(QCursor(Qt.CursorShape.ArrowCursor))
+        self.canvas.setFocus(Qt.FocusReason.OtherFocusReason)
 
         self.canvas.mapToolSet.connect(self.deactivate)
 

@@ -6,8 +6,11 @@ description=Triggers actions on single click to facilitate the use of actions at
 about=When the plugin is activated (button in the toolbar),
     the objects "carriers" of actions become "clickable".
 
-version=0.8.6
+version=0.9
+supportsQt6=True
+
 changelog=
+    0.9 : Qt6 compatible
     0.8.6 : fix. Pb when 2 layers have different projections.
     0.8.5 : Add action icon if exists, fix @click_x & @click_y variables
     0.8.4 : fix #9
