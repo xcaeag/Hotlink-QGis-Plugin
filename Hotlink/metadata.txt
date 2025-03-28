@@ -1,6 +1,6 @@
 [general]
 name=Hotlink
-qgisMinimumVersion=3.0
+qgisMinimumVersion=3.34
 qgisMaximumVersion=3.98
 description=Triggers actions on single click to facilitate the use of actions attached to vector layers
 about=When the plugin is activated (button in the toolbar),
