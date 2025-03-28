@@ -17,7 +17,7 @@ on:
     paths:
       - .github/workflows/package_and_release.yml
       - requirements/packaging.txt
-      - hotlink/**/*
+      - Hotlink/**/*
 
 # Allow one concurrent deployment per branch/pr
 concurrency:
