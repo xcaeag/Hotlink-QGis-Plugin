@@ -116,15 +116,6 @@ class Hotlink:
         self.optionShowTips = False
         self.read()
 
-        locale = QgsSettings().value("locale/userLocale", QLocale().name())
-        myLocale = locale[0:2]
-
-        localePath = str(DIR_PLUGIN_ROOT / "i18n/Hotlink_{}.qm").format(myLocale)
-        if QFileInfo(localePath).exists():
-            self.translator = QTranslator()
-            self.translator.load(localePath)
-            QCoreApplication.installTranslator(self.translator)
-
     def clickX(self):
         try:
             return self.__mapTool.pos().x()
