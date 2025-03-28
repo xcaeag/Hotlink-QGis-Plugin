@@ -6,7 +6,7 @@ description=Triggers actions on single click to facilitate the use of actions at
 about=When the plugin is activated (button in the toolbar),
     the objects "carriers" of actions become "clickable".
 
-version=0.9.0
+version=0.9.1-dev
 supportsQt6=True
 
 changelog=
